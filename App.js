@@ -1,10 +1,11 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Home from "./components/TableComp";
+import EmployeeList from "./components/EmployeeList";
+import TableComp from "./components/TableComp";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -16,11 +17,22 @@ export default function App() {
         {/* NOTE THAT THE NAME IS THE TITLE OF THE SCREEN AND THE COMPONENT HOME 
        IS WHAT GONNA BE RENDERD IN THE PAGE BOTH ARE SENT AS A PROP THE TITTLE REPLACE THE NAME  */}
 
-        <Stack.Screen
-          name="Home"
-          component={Home}
+        <Stack.Screen name="EmployeeList">
+          {(props) => <EmployeeList {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="TableComp">
+          {(props) => <TableComp {...props} />}
+        </Stack.Screen>
+        {/* <Stack.Screen
+          name="EmployeeList"
+          component={EmployeeList}
           options={{ title: "Welcome" }}
         />
+        <Stack.Screen
+          name="TableComp"
+          component={TableComp}
+          options={{ title: "Welcome" }}
+        /> */}
 
         {/* USE THIS WAY IF U WANT TO SEND PROPS OTHRER THAN THE COMPONENT NAME  */}
         {/* <Stack.Screen name="Home"> 
