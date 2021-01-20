@@ -8,6 +8,7 @@ import HomeScreen from "./components/HomeScreen.js";
 import EmployeeList from "./components/EmployeeList";
 import TableComp from "./components/TableComp";
 import Individualkpis from "./components/IndividualKpi";
+import ProjectRoles from "./components/ProjectRoles";
 
 export default function App() {
 
@@ -25,8 +26,8 @@ export default function App() {
         <Stack.Screen name="EmployeeList">
           {(props) => <EmployeeList {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="TableComp">
-          {(props) => <TableComp {...props} />}
+        <Stack.Screen name="ProjectRoles">
+          {(props) => <ProjectRoles {...props} />}
         </Stack.Screen>
         <Stack.Screen name="Individualkpis">
           {(props) => <Individualkpis {...props} />}
