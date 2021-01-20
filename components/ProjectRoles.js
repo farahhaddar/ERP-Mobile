@@ -14,7 +14,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 var user = ["John", "James", "Lisa"];
 var empId;
-export default class TableComp extends React.Component {
+export default class ProjectRoles extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

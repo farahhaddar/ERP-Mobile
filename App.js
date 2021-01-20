@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import EmployeeList from "./components/EmployeeList";
-import TableComp from "./components/TableComp";
+import ProjectRoles from "./components/ProjectRoles";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -20,8 +20,8 @@ export default function App() {
         <Stack.Screen name="EmployeeList">
           {(props) => <EmployeeList {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="TableComp">
-          {(props) => <TableComp {...props} />}
+        <Stack.Screen name="ProjectRoles">
+          {(props) => <ProjectRoles {...props} />}
         </Stack.Screen>
         {/* <Stack.Screen
           name="EmployeeList"

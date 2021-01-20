@@ -114,7 +114,7 @@ export default class FlatListComp extends React.Component {
                 <TouchableOpacity
                   style={styles.buttonContainer}
                   onPress={() =>
-                    this.props.navigation.navigate("TableComp", {
+                    this.props.navigation.navigate("ProjectRoles", {
                       data: item.id,
                     })
                   }
