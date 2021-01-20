@@ -79,7 +79,7 @@ export default class FlatListComp extends React.Component {
       .then((res) => res.text())
       .then((res) => this.setState({ employees: JSON.parse(res) }))
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   }
   handleMore = () => {
@@ -88,20 +88,15 @@ export default class FlatListComp extends React.Component {
 
   render() {
     var color = ["255,255,255", "245, 245, 245"];
-    console.log(this.state.employees);
+    // console.log(this.state.employees);
+    const data = { name: "Ali" };
 
     return (
       <View style={{ flex: 1, paddingTop: 30 }}>
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => this.props.navigation.navigate("TableComp")}
-        >
-          <Text style={styles.buttonText}>Go to Detail Screen</Text>
-        </TouchableOpacity>
         {/* <ScrollView> */}
         <View style={[styles.flex, { position: "relative" }]}>
-          <Text style={styles.tableTitle}>Project</Text>
-          <Text style={styles.tableTitle}>Role</Text>
+          <Text style={styles.tableTitle}>Employee</Text>
+          <Text style={styles.tableTitle}>Action</Text>
         </View>
 
         <FlatList
@@ -115,7 +110,18 @@ export default class FlatListComp extends React.Component {
               ]}
             >
               <Text style={styles.users}>{item.name}</Text>
-              <Text style={styles.users}>{item.id}</Text>
+              <Text style={styles.users}>
+                <TouchableOpacity
+                  style={styles.buttonContainer}
+                  onPress={() =>
+                    this.props.navigation.navigate("TableComp", {
+                      data: item.id,
+                    })
+                  }
+                >
+                  <Text style={styles.buttonText}>Project</Text>
+                </TouchableOpacity>
+              </Text>
             </View>
           )}
           //   onEndReached={this.handleMore}

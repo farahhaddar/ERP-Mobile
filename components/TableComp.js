@@ -1,91 +1,75 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { SafeAreaView, FlatList, ScrollView } from "react-native";
-import { StyleSheet, Text, View } from "react-native";
+import React, { Component } from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ScrollView,
+  AppRegistry,
+  TouchableOpacity,
+} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 var user = ["John", "James", "Lisa"];
+var empId;
 export default class TableComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: "",
+      projects: "",
     };
   }
+  componentDidMount() {
+    // var a = this.props.navigation.state.params.something;
+    // alert(a);
+    var { data } = this.props.route.params;
+    // alert(data);
+    empId = data;
+    fetch("http://192.168.1.105:8000/api/projectRole/" + empId + "/10")
+      .then((res) => res.text())
+      .then((res) => this.setState({ projects: JSON.parse(res) }));
+  }
+  handleMore = () => {
+    this.setState({ input: [...this.state.input, this.state.input1] });
+  };
 
   render() {
-    let data = [];
-    for (let i = 0; i < 7; i++) {
-      data.push(<Text style={styles.users}>asdsad</Text>);
-      data.push(<Text style={styles.users1}>asdsad</Text>);
-    }
+    var color = ["255,255,255", "245, 245, 245"];
+    // console.log(this.state.employees);
+    const data = { name: "Ali" };
+
     return (
-      <SafeAreaView>
-        <ScrollView>
-          <View style={styles.flex}>
-            <Text style={styles.tableTitle}>Project</Text>
-            <Text style={styles.tableTitle}>Role</Text>
-          </View>
-          <Text style={styles.width}></Text>
-          <View style={styles.flex}>
-            <Text style={styles.users}>asdsads</Text>
-            <Text style={styles.users}>Manager</Text>
-          </View>
-          <View style={styles.flex1}>
-            <Text style={styles.users}>asdsad</Text>
-            <Text style={styles.users}>Role</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.users}>asdsads</Text>
-            <Text style={styles.users}>Manager</Text>
-          </View>
-          <View style={styles.flex1}>
-            <Text style={styles.users}>asdsad</Text>
-            <Text style={styles.users}>Role</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.users}>asdsads</Text>
-            <Text style={styles.users}>Manager</Text>
-          </View>
-          <View style={styles.flex1}>
-            <Text style={styles.users}>asdsad</Text>
-            <Text style={styles.users}>Role</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.users}>asdsads</Text>
-            <Text style={styles.users}>Manager</Text>
-          </View>
-          <View style={styles.flex1}>
-            <Text style={styles.users}>asdsad</Text>
-            <Text style={styles.users}>Role</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.users}>asdsads</Text>
-            <Text style={styles.users}>Manager</Text>
-          </View>
-          <View style={styles.flex1}>
-            <Text style={styles.users}>asdsad</Text>
-            <Text style={styles.users}>Role</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.users}>asdsads</Text>
-            <Text style={styles.users}>Manager</Text>
-          </View>
-          <View style={styles.flex1}>
-            <Text style={styles.users}>asdsad</Text>
-            <Text style={styles.users}>Role</Text>
-          </View>
-          <View style={styles.flex}>
-            <Text style={styles.users}>asdsads</Text>
-            <Text style={styles.users}>Manager</Text>
-          </View>
-          <View style={styles.flex1}>
-            <Text style={styles.users}>asdsad</Text>
-            <Text style={styles.users}>Role</Text>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <View style={{ flex: 1, paddingTop: 30 }}>
+        {/* <ScrollView> */}
+        <View style={[styles.flex, { position: "relative" }]}>
+          <Text style={styles.tableTitle}>Project</Text>
+          <Text style={styles.tableTitle}>Role</Text>
+        </View>
+
+        <FlatList
+          keyExtractor={(item, index) => index}
+          data={this.state.projects.data}
+          renderItem={({ item, index }) => (
+            <View
+              style={[
+                styles.flex,
+                { backgroundColor: "rgb(" + color[index % 2] + ")" },
+              ]}
+            >
+              <Text style={styles.users}>{item.projectName}</Text>
+              <Text style={styles.users}>{item.roleName}</Text>
+            </View>
+          )}
+          //   onEndReached={this.handleMore}
+        ></FlatList>
+        {/* </ScrollView> */}
+      </View>
     );
   }
 }
+AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
     fontSize: 25,
