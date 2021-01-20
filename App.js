@@ -4,24 +4,27 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+z;
 import EmployeeList from "./components/EmployeeList";
 import TableComp from "./components/TableComp";
-import Login from "./components/LoginScreen";
 
 export default function App() {
+  const Stack = createStackNavigator();
+
   return (
-    <View>
-      <Login />
-    </View>
-  );
-}
-// DONT TOUCH
+    // DONT TOUCH
+    <NavigationContainer>
+      <Stack.Navigator>
+        {/* NOTE THAT THE NAME IS THE TITLE OF THE SCREEN AND THE COMPONENT HOME 
+       IS WHAT GONNA BE RENDERD IN THE PAGE BOTH ARE SENT AS A PROP THE TITTLE REPLACE THE NAME  */}
 
-/* NOTE THAT THE NAME IS THE TITLE OF THE SCREEN AND THE COMPONENT HOME 
-       IS WHAT GONNA BE RENDERD IN THE PAGE BOTH ARE SENT AS A PROP THE TITTLE REPLACE THE NAME  */
-
-{
-  /* <Stack.Screen
+        <Stack.Screen name="EmployeeList">
+          {(props) => <EmployeeList {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="TableComp">
+          {(props) => <TableComp {...props} />}
+        </Stack.Screen>
+        {/* <Stack.Screen
           name="EmployeeList"
           component={EmployeeList}
           options={{ title: "Welcome" }}
@@ -30,27 +33,23 @@ export default function App() {
           name="TableComp"
           component={TableComp}
           options={{ title: "Welcome" }}
-        /> */
-}
+        /> */}
 
-{
-  /* USE THIS WAY IF U WANT TO SEND PROPS OTHRER THAN THE COMPONENT NAME  */
-}
-{
-  /* <Stack.Screen name="Home"> 
+        {/* USE THIS WAY IF U WANT TO SEND PROPS OTHRER THAN THE COMPONENT NAME  */}
+        {/* <Stack.Screen name="Home"> 
         {props => <Home {...props} extraData={someData} />}
-        </Stack.Screen> */
-}
+        </Stack.Screen> */}
 
-{
-  /* <Stack.Screen name="" component={} />
+        {/* <Stack.Screen name="" component={} />
         <Stack.Screen name="" component={} /> 
         <Stack.Screen name="" component={} />
         <Stack.Screen name="" component={} />
         <Stack.Screen name="" component={} />
-        <Stack.Screen name="" component={} /> */
+        <Stack.Screen name="" component={} /> */}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
-
 //  TO NAVIGATE USING BUTTONS
 // send { navigation } as prop to every component page
 
