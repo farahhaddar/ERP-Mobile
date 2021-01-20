@@ -22,33 +22,30 @@ export default class HomeScreen extends Component {
     constructor(props) {
       super(props);
     }
-
     
-    render(){
-     return(
-     <SafeAreaView >
-      <View>
-        <Text>   Welcome Admin !   </Text>
-     </View> 
-     
-     <View>
-        <Text>  What Do You Want To Check?  </Text>
-     </View> 
-    
-      <View>
+componentDidMount() {
+    fetch("http://192.168.0.119:8000/api/employees/10", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.text())
+      .then((res) => this.setState({ employees: JSON.parse(res) }))
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-       <Button title="EmployeeList " onPress={() => this.props.navigation.navigate('EmployeeList')}/>
-       
-       <Button title="Over All Kpi  List " onPress={() => this.props.navigation.navigate('Individualkpis')}/> 
+render(){
+ return(
+ <SafeAreaView>
+ <View>
+     <Text> Hello </Text>
+ </View>
 
-      </View>
-      <View>
-        <FontAwesomeIcon icon={ faSignOutAlt} />
-      </View>
-
-
-     </SafeAreaView>
-     );
-    }
-    
-    }
+ </SafeAreaView>
+ );
+}
+}
