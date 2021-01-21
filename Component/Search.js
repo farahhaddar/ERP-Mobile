@@ -3,8 +3,6 @@ import { StyleSheet } from "react-native";
 import { SearchBar } from "react-native-elements";
 
 const SearchComponent = (props) => {
-  const [change, setChange] = useState();
-
   return (
     <SearchBar
       placeholder="Search Here..."
@@ -17,17 +15,15 @@ const SearchComponent = (props) => {
       showCancel={true}
       showLoading={true}
       lightTheme={true}
-      value={change}
-      onChangeText={(search) => {
-        setChange(search);
-      }}
+      value={props.change}
+      onChangeText={props.searchInput}
     />
   );
 };
 
 const styles = StyleSheet.create({
   searchContainer: {
-    backgroundColor: "white",
+    backgroundColor: "powderblue",
     width: "100%",
     borderBottomWidth: 0,
     borderTopWidth: 0,

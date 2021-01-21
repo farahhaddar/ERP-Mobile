@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Login = () => {
+const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onLogin = async (e) => {
@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     backgroundColor: "powderblue",
   },
   titleText: {
-    // fontFamily: "Baskerville",
     paddingBottom: 50,
     fontSize: 50,
     alignItems: "center",
@@ -95,7 +94,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   buttonText: {
-    // fontFamily: "Baskerville",
     color: "white",
     fontSize: 20,
     alignItems: "center",
