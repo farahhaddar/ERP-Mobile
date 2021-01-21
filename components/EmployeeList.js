@@ -23,6 +23,7 @@ export default class FlatListComp extends React.Component {
     this.state = {
       employees: "",
       search: "",
+      test: "",
       page: 1,
       refreshing: false,
     };
@@ -34,7 +35,9 @@ export default class FlatListComp extends React.Component {
       "http://192.168.1.105:8000/api/employees/" +
         rows +
         "?page= " +
-        this.state.page,
+        this.state.page +
+        "&name=" +
+        this.state.search,
       {
         method: "GET",
         headers: {
@@ -55,12 +58,13 @@ export default class FlatListComp extends React.Component {
       });
   }
   handleMore = () => {
-    // alert("hi");
     fetch(
       "http://192.168.1.105:8000/api/employees/" +
         rows +
         "?page= " +
-        this.state.page,
+        this.state.page +
+        "&name=" +
+        this.state.search,
       {
         method: "GET",
         headers: {
@@ -91,6 +95,31 @@ export default class FlatListComp extends React.Component {
   updateSearch(e) {
     this.setState({ page: 1 });
     this.setState({ search: e });
+    fetch(
+      "http://192.168.1.105:8000/api/employees/" +
+        rows +
+        "?page= 1" +
+        "&name=" +
+        e,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.text())
+      .then((res) => {
+        if (JSON.parse(res).data.length == rows) {
+          this.state.page = this.state.page + 1;
+        }
+        // let x = JSON.parse(res);
+        // if (x.data.length > 1) while (x.data.length > 1) x.data.pop();
+        this.setState({ employees: JSON.parse(res) });
+        count = JSON.parse(res).data.length;
+      })
+      .catch((error) => {});
   }
   onRefresh() {
     count = rows;
@@ -151,7 +180,7 @@ export default class FlatListComp extends React.Component {
           refreshing={this.state.refreshing}
           onRefresh={() => this.onRefresh()}
           onEndReached={this.handleMore}
-          // onEndReachedThreshold={100}
+          onEndReachedThreshold={0.1}
         ></FlatList>
         {/* </ScrollView> */}
       </View>
