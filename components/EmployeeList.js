@@ -13,24 +13,24 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
-
-
-var  count = 3,rows = 3;
-
+// import { navigation } from "react-native";
+var flowers = [{ key: "asdasd1" }, { key: "asdasd2" }];
+var count = 10,
+  rows = 10;
 export default class FlatListComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: [],
-      input1: [],
       employees: "",
       search: "",
       page: 1,
+      refreshing: false,
     };
     this.updateSearch = this.updateSearch.bind(this);
   }
  
   componentDidMount() {
+    // this.setState({ refreshing: false });
     fetch(
       "http://192.168.0.119:8000/api/employees/" +
         rows +
@@ -88,11 +88,21 @@ export default class FlatListComp extends React.Component {
       .catch((error) => {
          console.log(error);
       });
-    this.setState({ input: [...this.state.input, this.state.input1] });
   };
   updateSearch(e) {
     this.setState({ page: 1 });
     this.setState({ search: e });
+  }
+  onRefresh() {
+    count = rows;
+    this.setState(
+      {
+        page: 1,
+        refreshing: false,
+        employees: "",
+      },
+      () => this.componentDidMount()
+    );
   }
 
   render() {
@@ -153,7 +163,10 @@ export default class FlatListComp extends React.Component {
               </Text>
             </View>
           )}
+          refreshing={this.state.refreshing}
+          onRefresh={() => this.onRefresh()}
           onEndReached={this.handleMore}
+          // onEndReachedThreshold={100}
         ></FlatList>
        
       </View>

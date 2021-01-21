@@ -23,6 +23,7 @@ export default class ProjectRoles extends React.Component {
     this.state = {
       projects: "",
       page: 1,
+      refreshing: false,
     };
   }
   componentDidMount() {
@@ -69,6 +70,17 @@ export default class ProjectRoles extends React.Component {
          console.log(error);
       });
   };
+  onRefresh() {
+    count = rows;
+    this.setState(
+      {
+        page: 1,
+        refreshing: false,
+        employees: "",
+      },
+      () => this.componentDidMount()
+    );
+  }
 
   render() {
     var color = ["255,255,255", "245, 245, 245"];
@@ -97,6 +109,8 @@ export default class ProjectRoles extends React.Component {
               <Text style={styles.users}>{item.roleName}</Text>
             </View>
           )}
+          refreshing={this.state.refreshing}
+          onRefresh={() => this.onRefresh()}
           onEndReached={this.handleMore}
         ></FlatList>
       
