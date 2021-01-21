@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-var user = ["John", "James", "Lisa"];
+
+
 var empId;
 var count = 3,
   rows = 3;
@@ -25,13 +26,12 @@ export default class ProjectRoles extends React.Component {
     };
   }
   componentDidMount() {
-    // var a = this.props.navigation.state.params.something;
-    // alert(a);
+   
     var { data } = this.props.route.params;
-    // alert(data);
+    
     empId = data;
     fetch(
-      "http://192.168.1.105:8000/api/projectRole/" + empId + "/3" + "?page=1 "
+      "http://192.168.0.119:8000/api/projectRole/" + empId + "/3" + "?page=1 "
     )
       .then((res) => res.text())
       .then((res) => {
@@ -41,8 +41,8 @@ export default class ProjectRoles extends React.Component {
         this.setState({ projects: JSON.parse(res) });
       });
   }
+
   handleMore = () => {
-    // this.setState({ input: [...this.state.input, this.state.input1] });
     fetch(
       "http://192.168.1.105:8000/api/projectRole/" +
         empId +
@@ -66,18 +66,18 @@ export default class ProjectRoles extends React.Component {
         count = JSON.parse(res).data.length;
       })
       .catch((error) => {
-        // console.log(error);
+         console.log(error);
       });
   };
 
   render() {
     var color = ["255,255,255", "245, 245, 245"];
-    // console.log(this.state.employees);
+    
     const data = { name: "Ali" };
 
     return (
       <View style={{ flex: 1, paddingTop: 30 }}>
-        {/* <ScrollView> */}
+        
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Project</Text>
           <Text style={styles.tableTitle}>Role</Text>
@@ -99,7 +99,7 @@ export default class ProjectRoles extends React.Component {
           )}
           onEndReached={this.handleMore}
         ></FlatList>
-        {/* </ScrollView> */}
+      
       </View>
     );
   }

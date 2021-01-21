@@ -6,7 +6,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "./components/HomeScreen.js";
 import EmployeeList from "./components/EmployeeList";
-import TableComp from "./components/TableComp";
 import Individualkpis from "./components/IndividualKpi";
 import ProjectRoles from "./components/ProjectRoles";
 
