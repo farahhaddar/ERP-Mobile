@@ -29,6 +29,9 @@ export default class FlatListComp extends React.Component {
     };
     this.updateSearch = this.updateSearch.bind(this);
   }
+  componentWillUnmount() {
+    count = rows;
+  }
 
   componentDidMount() {
     // this.setState({ refreshing: false });

@@ -57,8 +57,8 @@ export default class Graph extends React.Component {
     if (this.state.Kpis.data != undefined) {
       let N = 1;
       for (let i = 0; i < this.state.Kpis.data.length; i++) {
-        const level = "L" + N++;
-        date.push(level.toString());
+        const level = N++;
+        date.push(level);
       }
     }
 
