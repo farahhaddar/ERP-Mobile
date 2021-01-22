@@ -13,8 +13,12 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
-// import { navigation } from "react-native";
-var flowers = [{ key: "asdasd1" }, { key: "asdasd2" }];
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+
+
+
+
 
 var count = 10,
   rows = 10;
@@ -41,9 +45,9 @@ export default class FlatListComp extends React.Component {
 
     fetch(
       "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
-        empId +
-        "?page= " +
-        this.state.page,
+      empId +
+      "?page= " +
+      this.state.page+"&name="+this.state.search,
       {
         method: "GET",
         headers: {
@@ -70,9 +74,9 @@ export default class FlatListComp extends React.Component {
     empId = data;
     fetch(
       "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
-        empId +
-        "?page= " +
-        this.state.page,
+      empId +
+      "?page= " +
+      this.state.page+"&name="+this.state.search,
       {
         method: "GET",
         headers: {
@@ -103,6 +107,29 @@ export default class FlatListComp extends React.Component {
   updateSearch(e) {
     this.setState({ page: 1 });
     this.setState({ search: e });
+    fetch(
+      "http://192.168.0.119:8000/api/kpiCurrent/" +
+        rows +
+        "?page= 1" +
+        "&name=" +e + "&empId=" +
+        empId ,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.text())
+      .then((res) => {
+        if (JSON.parse(res).data.length == rows) {
+          this.state.page = this.state.page + 1;
+        }
+        this.setState({ Kpis: JSON.parse(res) });
+        count = JSON.parse(res).data.length;
+      })
+      .catch((error) => {});
   }
   onRefresh() {
     count = rows;
@@ -122,17 +149,34 @@ export default class FlatListComp extends React.Component {
     const data = {};
 
     return (
-      <View style={{ flex: 1, paddingTop: 30 }}>
+      <View style={styles.SearchBar}>
         <SearchBar
-          placeholder="Type Here..."
+          containerStyle={
+          { backgroundColor: 'wite',
+            borderTopColor:"transparent",
+            borderBottomColor:"transparent",
+            borderRightColor:"transparent",
+            borderLeftColor:"transparent",
+            borderRadius: 90 
+          }
+          }
+          round="true"
+          inputContainerStyle={
+            {  borderWidth: 0,
+              backgroundColor:"rgba(0,0,0,0.2)" , 
+              borderRadius: 90
+            }
+            }
+          placeholderTextColor={'rgba(255,25,146,0.9)'}
+          placeholder={'Search By Name'}
           onChangeText={this.updateSearch}
           value={this.state.search}
         />
 
         <View style={[styles.flex, { position: "relative" }]}>
-          <Text style={styles.tableTitle}> Kpi name </Text>
+          <Text style={styles.tableTitle}> KPI </Text>
           <Text style={styles.tableTitle}>Level</Text>
-          <Text style={styles.tableTitle}>graph </Text>
+          <Text style={styles.tableTitle}>Graph </Text>
         </View>
 
         <FlatList
@@ -145,9 +189,9 @@ export default class FlatListComp extends React.Component {
                 { backgroundColor: "rgb(" + color[index % 2] + ")" },
               ]}
             >
-              <Text style={styles.users}>{item.name}</Text>
-              <Text style={styles.users}>{item.level}</Text>
-              <Text style={styles.users}>
+              <Text style={[styles.users, styles.n]}>{item.name}</Text>
+              <Text style={[styles.users, styles.l]}>{item.level}</Text>
+              <Text style={[styles.users, styles.g]}>
                 <TouchableOpacity
                   style={styles.buttonContainer}
                   onPress={() =>
@@ -156,7 +200,7 @@ export default class FlatListComp extends React.Component {
                     })
                   }
                 >
-                  <Text style={styles.buttonText}>graph</Text>
+                  <Text style={styles.buttonText}><FontAwesomeIcon color={"rgb(255,25,146)"} size={22} icon={faChartLine} /></Text>
                 </TouchableOpacity>
               </Text>
             </View>
@@ -164,7 +208,7 @@ export default class FlatListComp extends React.Component {
           refreshing={this.state.refreshing}
           onRefresh={() => this.onRefresh()}
           onEndReached={this.handleMore}
-          // onEndReachedThreshold={100}
+        // onEndReachedThreshold={100}
         ></FlatList>
       </View>
     );
@@ -173,10 +217,10 @@ export default class FlatListComp extends React.Component {
 AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
-    fontSize: 25,
+    fontSize: 20,
     borderWidth: 0,
     padding: 20,
-    width: "40%",
+    width: "35%",
   },
   flex: {
     display: "flex",
@@ -188,15 +232,33 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(245, 245, 245)",
   },
   tableTitle: {
+    fontWeight: "bold",
     color: "grey",
-    fontSize: 25,
+    fontSize: 22,
     paddingLeft: 20,
     paddingTop: 20,
-    marginTop: 20,
-    width: "50%",
+    marginTop: 15,
+    width: "35%",
   },
   width: {
     borderBottomWidth: 1,
     borderBottomColor: "grey",
   },
+  SearchBar: {
+    flex: 1,
+    paddingTop: 8,
+    borderWidth: 0,
+    borderRadius: 90,
+
+  },
+  g: {
+    paddingLeft: 40,
+  },
+  n: {
+    paddingLeft: 10,
+  },
+  l: {
+    paddingLeft: 30,
+  },
+
 });

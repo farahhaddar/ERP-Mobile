@@ -63,8 +63,11 @@ export default class Graph extends React.Component {
     }
     if (array[0] == undefined) array.push(0);
     return (
-      <View>
-        <Text>Kpi Progress </Text>
+      <View style={styles.cont}>
+        <Text style={styles.hed}>Kpi Progress </Text>
+        <View style={styles.cc}>
+        <View style={styles.gc}>
+          <Text style={styles.t}> Percentage </Text>
         <LineChart
           data={{
             labels: date,
@@ -75,7 +78,7 @@ export default class Graph extends React.Component {
             ],
           }}
           width={Dimensions.get("window").width} // from react-native
-          height={300}
+          height={250}
           // withInnerLines='false'
           yAxistitle=" percentage"
           // fromZero='true'
@@ -84,9 +87,13 @@ export default class Graph extends React.Component {
           chartConfig={{
             backgroundGradientFrom: "rgb(223,28,95)",
             backgroundGradientTo: "rgb(255,25,146)",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 0, 
             color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            propsForLabels:{
+              fontSize:18,
+              fontWeight:"bold"
+            },
             style: {
               borderRadius: 16,
             },
@@ -98,11 +105,55 @@ export default class Graph extends React.Component {
           }}
           bezier
           style={{
-            marginVertical: 8,
-            borderRadius: 16,
+            marginVertical: 9,
+            //// borderRadius: 35,
           }}
         />
+        <Text style={styles.tt}> Level </Text>
+         </View>
+      </View>
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  cont: {
+    backgroundColor: "rgb(255, 255, 255)",
+    width: "100%",
+    height: "100%",
+  },
+  cc: {
+    marginTop: 50,
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    height: 390,
+    backgroundColor: "black",
+    borderRadius: 18,
+
+  },
+  hed:{
+    textAlign:"center",
+    fontSize:25,
+    fontWeight:"bold",
+    marginTop:30,
+    marginBottom:6,
+  },
+  gc:{
+    marginTop:20,
+  },
+  t:{
+    fontSize:20,
+    color:"white",
+    marginBottom:5,
+  },
+  tt:{
+    fontSize:20,
+    color:"white",
+     marginTop:8,
+    textAlign:"right"
+  }
+  
+
+  
+});

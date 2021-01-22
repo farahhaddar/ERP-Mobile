@@ -9,6 +9,8 @@ import EmployeeList from "./components/EmployeeList";
 import Individualkpis from "./components/IndividualKpi";
 import ProjectRoles from "./components/ProjectRoles";
 import Graph from "./components/Graph";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faSignOutAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 export default function App() {
 
@@ -20,7 +22,7 @@ export default function App() {
       <Stack.Navigator>
 
         
-        <Stack.Screen name="HomeScreen">
+        <Stack.Screen name="HomeScreen"  >
           {(props) => <HomeScreen {...props} />}
         </Stack.Screen>
         <Stack.Screen name="EmployeeList">
@@ -29,7 +31,7 @@ export default function App() {
         <Stack.Screen name="ProjectRoles">
           {(props) => <ProjectRoles {...props} />}
         </Stack.Screen>
-        <Stack.Screen name="Individualkpis">
+        <Stack.Screen name="Individualkpis" >
           {(props) => <Individualkpis {...props} />}
         </Stack.Screen>
         <Stack.Screen name="Graph">
