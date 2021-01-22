@@ -9,58 +9,13 @@ import {
   ScrollView,
   AppRegistry,
 } from "react-native";
-var flowers = [
-  { key: "asdasd1" },
-  { key: "asdasd2" },
-  { key: "asdasd3" },
-  { key: "asdasd4" },
-  { key: "asdasd5" },
-  { key: "asdasd1" },
-  { key: "asdasd2" },
-  { key: "asdasd3" },
-  { key: "asdasd4" },
-  { key: "asdasd5" },
-  { key: "asdasd1" },
-  { key: "asdasd2" },
-  { key: "asdasd3" },
-  { key: "asdasd4" },
-  { key: "asdasd5" },
-  { key: "asdasd1" },
-  { key: "asdasd2" },
-  { key: "asdasd3" },
-  { key: "asdasd4" },
-  { key: "asdasd5" },
-];
+
 export default class FlatListComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: [
-        { key: "asdasd5" },
-        { key: "asdasd1" },
-        { key: "asdasd2" },
-        { key: "asdasd3" },
-        { key: "asdasd4" },
-        { key: "asdasd5" },
-        { key: "asdasd1" },
-        { key: "asdasd2" },
-        { key: "asdasd3" },
-        { key: "asdasd4" },
-        { key: "asdasd5" },
-      ],
-      input1: [
-        { key: "asdasd5" },
-        { key: "asdasd1" },
-        { key: "asdasd2" },
-        { key: "asdasd3" },
-        { key: "asdasd4" },
-        { key: "asdasd5" },
-        { key: "asdasd1" },
-        { key: "asdasd2" },
-        { key: "asdasd3" },
-        { key: "asdasd4" },
-        { key: "asdasd5" },
-      ],
+      input: [],
+      input1: [ ],
     };
   }
   handleMore = () => {

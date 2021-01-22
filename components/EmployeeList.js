@@ -13,8 +13,9 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
-// import { navigation } from "react-native";
-var flowers = [{ key: "asdasd1" }, { key: "asdasd2" }];
+
+
+
 var count = 10,
   rows = 10;
 export default class FlatListComp extends React.Component {
@@ -36,7 +37,7 @@ export default class FlatListComp extends React.Component {
   componentDidMount() {
     // this.setState({ refreshing: false });
     fetch(
-      "http://192.168.1.105:8000/api/employees/" +
+      "http://192.168.0.119:8000/api/employees/" +
         rows +
         "?page= " +
         this.state.page +
@@ -63,7 +64,7 @@ export default class FlatListComp extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.1.105:8000/api/employees/" +
+      "http://192.168.0.119:8000/api/employees/" +
         rows +
         "?page= " +
         this.state.page +
@@ -100,7 +101,7 @@ export default class FlatListComp extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.1.105:8000/api/employees/" +
+      "http://192.168.0.119:8000/api/employees/" +
         rows +
         "?page= 1" +
         "&name=" +
