@@ -15,34 +15,35 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
 // import { navigation } from "react-native";
 var flowers = [{ key: "asdasd1" }, { key: "asdasd2" }];
+
 var count = 10,
   rows = 10;
+var empId;
+
 export default class FlatListComp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      employees: "",
+      Kpis: "",
       search: "",
-      test: "",
       page: 1,
       refreshing: false,
-      token: "",
     };
     this.updateSearch = this.updateSearch.bind(this);
   }
   componentWillUnmount() {
     count = rows;
   }
-
   componentDidMount() {
-    // this.setState({ refreshing: false });
+    var { data } = this.props.route.params;
+
+    empId = data;
+
     fetch(
-      "http://192.168.0.119:8000/api/employees/" +
-        rows +
+      "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
+        empId +
         "?page= " +
-        this.state.page +
-        "&name=" +
-        this.state.search,
+        this.state.page,
       {
         method: "GET",
         headers: {
@@ -56,7 +57,7 @@ export default class FlatListComp extends React.Component {
         if (JSON.parse(res).data.length == rows) {
           this.state.page = this.state.page + 1;
         }
-        this.setState({ employees: JSON.parse(res) });
+        this.setState({ Kpis: JSON.parse(res) });
         count = JSON.parse(res).data.length;
       })
       .catch((error) => {
@@ -64,13 +65,14 @@ export default class FlatListComp extends React.Component {
       });
   }
   handleMore = () => {
+    var { data } = this.props.route.params;
+
+    empId = data;
     fetch(
-      "http://192.168.0.119:8000/api/employees/" +
-        rows +
+      "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
+        empId +
         "?page= " +
-        this.state.page +
-        "&name=" +
-        this.state.search,
+        this.state.page,
       {
         method: "GET",
         headers: {
@@ -85,12 +87,12 @@ export default class FlatListComp extends React.Component {
           this.state.page = this.state.page + 1;
         }
 
-        let employees = { ...this.state.employees };
-        if (count < rows) for (let i = 0; i < count; i++) employees.data.pop();
+        let Kpis = { ...this.state.Kpis };
+        if (count < rows) for (let i = 0; i < count; i++) Kpis.data.pop();
 
-        employees.data = [...employees.data, ...JSON.parse(res).data];
+        Kpis.data = [...Kpis.data, ...JSON.parse(res).data];
         this.setState({
-          employees: employees,
+          Kpis: Kpis,
         });
         count = JSON.parse(res).data.length;
       })
@@ -101,31 +103,6 @@ export default class FlatListComp extends React.Component {
   updateSearch(e) {
     this.setState({ page: 1 });
     this.setState({ search: e });
-    fetch(
-      "http://192.168.0.119:8000/api/employees/" +
-        rows +
-        "?page= 1" +
-        "&name=" +
-        e,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.text())
-      .then((res) => {
-        if (JSON.parse(res).data.length == rows) {
-          this.state.page = this.state.page + 1;
-        }
-        // let x = JSON.parse(res);
-        // if (x.data.length > 1) while (x.data.length > 1) x.data.pop();
-        this.setState({ employees: JSON.parse(res) });
-        count = JSON.parse(res).data.length;
-      })
-      .catch((error) => {});
   }
   onRefresh() {
     count = rows;
@@ -133,7 +110,7 @@ export default class FlatListComp extends React.Component {
       {
         page: 1,
         refreshing: false,
-        employees: "",
+        Kpis: "",
       },
       () => this.componentDidMount()
     );
@@ -153,14 +130,14 @@ export default class FlatListComp extends React.Component {
         />
 
         <View style={[styles.flex, { position: "relative" }]}>
-          <Text style={styles.tableTitle}>Employee</Text>
-          <Text style={styles.tableTitle}>Action</Text>
+          <Text style={styles.tableTitle}> Kpi name </Text>
+          <Text style={styles.tableTitle}>Level</Text>
+          <Text style={styles.tableTitle}>graph </Text>
         </View>
 
         <FlatList
-          keyExtractor={(item, index) => index.toString()}
-          // keyExtractor={item => item.index_id.toString()}
-          data={this.state.employees.data}
+          keyExtractor={(item, index) => index}
+          data={this.state.Kpis.data}
           renderItem={({ item, index }) => (
             <View
               style={[
@@ -169,28 +146,17 @@ export default class FlatListComp extends React.Component {
               ]}
             >
               <Text style={styles.users}>{item.name}</Text>
+              <Text style={styles.users}>{item.level}</Text>
               <Text style={styles.users}>
                 <TouchableOpacity
                   style={styles.buttonContainer}
                   onPress={() =>
-                    this.props.navigation.navigate("ProjectRoles", {
+                    this.props.navigation.navigate("Graph", {
                       data: item.id,
                     })
                   }
                 >
-                  <Text style={styles.buttonText}>Project</Text>
-                </TouchableOpacity>
-              </Text>
-              <Text style={styles.users}>
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={() =>
-                    this.props.navigation.navigate("Individualkpis", {
-                      data: item.id,
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>Kpis</Text>
+                  <Text style={styles.buttonText}>graph</Text>
                 </TouchableOpacity>
               </Text>
             </View>
@@ -198,7 +164,7 @@ export default class FlatListComp extends React.Component {
           refreshing={this.state.refreshing}
           onRefresh={() => this.onRefresh()}
           onEndReached={this.handleMore}
-          onEndReachedThreshold={0.1}
+          // onEndReachedThreshold={100}
         ></FlatList>
       </View>
     );

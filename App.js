@@ -4,55 +4,40 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import FlatListComp from "./components/EmployeeList";
-import Kpi from "./components/List";
-import Login from "./components/LoginScreen";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-// import TableComp from "./components/TableComp";
-// import List from "./components/List";
-const AuthStack = createStackNavigator();
+import HomeScreen from "./components/HomeScreen.js";
+import EmployeeList from "./components/EmployeeList";
+import Individualkpis from "./components/IndividualKpi";
+import ProjectRoles from "./components/ProjectRoles";
+import Graph from "./components/Graph";
 
-const AuthStackScreen = () => (
-  <AuthStack.Navigator initialRouteName="Login">
-    <AuthStack.Screen
-      name="Login"
-      component={Login}
-      options={{
-        headerTitle: "Login",
-      }}
-    />
-  </AuthStack.Navigator>
-);
-const RootStack = createStackNavigator();
+export default function App() {
 
-const RootStackScreen = () => (
-  <RootStack.Navigator>
-    <RootStack.Screen
-      name="kpi"
-      component={Kpi}
-      options={{
-        headerTitle: "Kpi",
-      }}
-    />
-  </RootStack.Navigator>
-);
-function App() {
-  const [token, setToken] = useState("");
-  const stored = async () => {
-    const token = await AsyncStorage.getItem("token");
-    setToken(token);
-  };
-  stored();
+  const Stack = createStackNavigator();
 
   return (
     <NavigationContainer>
-      {token ? <RootStackScreen /> : <AuthStackScreen />}
+      <Stack.Navigator>
+
+        
+        <Stack.Screen name="HomeScreen">
+          {(props) => <HomeScreen {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="EmployeeList">
+          {(props) => <EmployeeList {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="ProjectRoles">
+          {(props) => <ProjectRoles {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="Individualkpis">
+          {(props) => <Individualkpis {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="Graph">
+          {(props) => <Graph {...props} />}
+        </Stack.Screen>
+
+
+        
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-export default App;
