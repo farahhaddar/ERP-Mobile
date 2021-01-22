@@ -4,8 +4,8 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSignOutAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+// import { faSignOutAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 import {
   SafeAreaView,
@@ -70,17 +70,12 @@ export default class HomeScreen extends Component {
           >
             <Text style={styles.butTxt}>All Kpis List </Text>
           </TouchableOpacity>
-
         </View>
 
-
-        </View >
-        <View  style={styles.footer}>
-          <Text  style={styles.foot}>  &#169; ERP 2021</Text>
+        {/* </View > */}
+        <View style={styles.footer}>
+          <Text style={styles.foot}> &#169; ERP 2021</Text>
         </View>
-    
-
-
       </SafeAreaView>
     );
   }
@@ -102,7 +97,6 @@ const styles = StyleSheet.create({
 
     // borderWidth: 4,
     // borderColor: "pink",
-
   },
   but: {
     marginRight: 15,
@@ -122,12 +116,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   logout: {
+    marginLeft: 160,
 
-   marginLeft: 160,
-
-  marginTop: 5,
-  marginLeft:160,
-
+    marginTop: 5,
+    marginLeft: 160,
   },
 
   wlc: {
@@ -138,25 +130,19 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   qus: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 40,
     fontSize: 22,
   },
-
-});
-  footer:{
+  footer: {
     borderColor: "rgba(0,0,0,0.6)",
     borderWidth: 0,
-    borderTopWidth: 2,  
-    marginTop:150
- 
+    borderTopWidth: 2,
+    marginTop: 150,
   },
-  foot:{
-    color:"rgba(0,0,0,0.6)",
-    marginTop:10,
-    textAlign: 'center',
-  }
-
-
-  
+  foot: {
+    color: "rgba(0,0,0,0.6)",
+    marginTop: 10,
+    textAlign: "center",
+  },
 });
