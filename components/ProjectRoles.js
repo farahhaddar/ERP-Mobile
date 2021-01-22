@@ -12,10 +12,11 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { SearchBar } from "react-native-elements";
 var user = ["John", "James", "Lisa"];
 var empId;
-var count = 3,
-  rows = 3;
+var count = 10,
+  rows = 10;
 export default class ProjectRoles extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +24,9 @@ export default class ProjectRoles extends React.Component {
       projects: "",
       page: 1,
       refreshing: false,
+      search: "",
     };
+    this.updateSearch = this.updateSearch.bind(this);
   }
   componentDidMount() {
     // var a = this.props.navigation.state.params.something;
@@ -32,7 +35,13 @@ export default class ProjectRoles extends React.Component {
     // alert(data);
     empId = data;
     fetch(
-      "http://192.168.1.105:8000/api/projectRole/" + empId + "/3" + "?page=1 "
+      "http://192.168.1.105:8000/api/projectRole/" +
+        empId +
+        "/" +
+        rows +
+        "?page=1 " +
+        "&projectName=" +
+        this.state.search
     )
       .then((res) => res.text())
       .then((res) => {
@@ -42,13 +51,47 @@ export default class ProjectRoles extends React.Component {
         this.setState({ projects: JSON.parse(res) });
       });
   }
+  updateSearch(e) {
+    this.setState({ page: 1 });
+    this.setState({ search: e });
+    fetch(
+      "http://192.168.1.105:8000/api/projectRole/" +
+        empId +
+        "/" +
+        rows +
+        "?page=1 " +
+        "&projectName=" +
+        e,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.text())
+      .then((res) => {
+        if (JSON.parse(res).data.length == rows) {
+          this.state.page = this.state.page + 1;
+        }
+        // let x = JSON.parse(res);
+        // if (x.data.length > 1) while (x.data.length > 1) x.data.pop();
+        this.setState({ projects: JSON.parse(res) });
+        count = JSON.parse(res).data.length;
+      })
+      .catch((error) => {});
+  }
   handleMore = () => {
     fetch(
       "http://192.168.1.105:8000/api/projectRole/" +
         empId +
-        "/3" +
+        "/" +
+        rows +
         "?page= " +
-        this.state.page
+        this.state.page +
+        "&projectName=" +
+        this.state.search
     )
       .then((res) => res.text())
       .then((res) => {
@@ -88,7 +131,13 @@ export default class ProjectRoles extends React.Component {
 
     return (
       <View style={{ flex: 1, paddingTop: 30 }}>
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={this.updateSearch}
+          value={this.state.search}
+        />
         {/* <ScrollView> */}
+
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Project</Text>
           <Text style={styles.tableTitle}>Role</Text>
