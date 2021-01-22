@@ -30,7 +30,7 @@ export default class Graph extends React.Component {
     kpiId = data;
 
     console.log(kpiId);
-    fetch("http://192.168.1.105:8000/api/kpisd/100?kpiId=" + kpiId, {
+    fetch("http://192.168.0.119:8000/api/kpisd/100?kpiId=" + kpiId, {
       method: "GET",
       headers: {
         Accept: "application/json",

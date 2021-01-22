@@ -40,7 +40,7 @@ export default class FlatListComp extends React.Component {
     empId = data;
 
     fetch(
-      "http://192.168.1.105:8000/api/kpiCurrent/10?empId=" +
+      "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
         empId +
         "?page= " +
         this.state.page,
