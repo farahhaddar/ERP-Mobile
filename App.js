@@ -85,7 +85,7 @@ export default function App() {
         <Stack.Screen name="Graph">
           {(props) => <Graph {...props} />}
         </Stack.Screen>
-
+{/* nn */}
 
         
       </Stack.Navigator>
