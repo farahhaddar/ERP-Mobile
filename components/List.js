@@ -13,11 +13,16 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Button } from "react-native";
 // import { navigation } from "react-native";
-var flowers = [{ key: "asdasd1" }, { key: "asdasd2" }];
-var count = 10,
-  rows = 10;
-export default class FlatListComp extends React.Component {
+var count = 3,
+  rows = 3;
+
+export default class Kpi extends React.Component {
+  // store = async () => {
+  //   AsyncStorage.getItem("token");
+  // };
   constructor(props) {
     super(props);
     this.state = {
@@ -32,8 +37,9 @@ export default class FlatListComp extends React.Component {
 
   componentDidMount() {
     // this.setState({ refreshing: false });
+
     fetch(
-      "http://192.168.1.6:8000/api/employees/" +
+      "http://192.168.43.79:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
         this.state.page,
@@ -53,13 +59,12 @@ export default class FlatListComp extends React.Component {
         this.setState({ employees: JSON.parse(res) });
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   }
   handleMore = () => {
-    // alert("hi");
     fetch(
-      "http://192.168.1.6:8000/api/employees/" +
+      "http://192.168.43.79:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
         this.state.page,
@@ -87,7 +92,7 @@ export default class FlatListComp extends React.Component {
         count = JSON.parse(res).data.length;
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   };
   updateSearch(e) {
@@ -105,15 +110,21 @@ export default class FlatListComp extends React.Component {
       () => this.componentDidMount()
     );
   }
-
+  clearStorage = async () => {
+    try {
+      return await AsyncStorage.clear();
+    } catch (e) {
+      console.log(e);
+    }
+  };
   render() {
     console.log(this.state.employees);
     var color = ["255,255,255", "245, 245, 245"];
-    // console.log(this.state.employees);
-    const data = { name: "Ali" };
 
     return (
       <View style={{ flex: 1, paddingTop: 30 }}>
+        <Button title="logout" onPress={this.clearStorage}></Button>
+
         <SearchBar
           placeholder="Type Here..."
           onChangeText={this.updateSearch}
@@ -122,11 +133,12 @@ export default class FlatListComp extends React.Component {
         {/* <ScrollView> */}
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Employee</Text>
-          <Text style={styles.tableTitle}>Action</Text>
+          <Text style={styles.tableTitle}>KPI</Text>
+          <Text style={styles.tableTitle}>Level</Text>
         </View>
 
         <FlatList
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index.toString()}
           data={this.state.employees.data}
           renderItem={({ item, index }) => (
             <View
@@ -135,19 +147,9 @@ export default class FlatListComp extends React.Component {
                 { backgroundColor: "rgb(" + color[index % 2] + ")" },
               ]}
             >
+              <Text style={styles.users}>{item.empName}</Text>
               <Text style={styles.users}>{item.name}</Text>
-              <Text style={styles.users}>
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={() =>
-                    this.props.navigation.navigate("ProjectRoles", {
-                      data: item.id,
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>Project</Text>
-                </TouchableOpacity>
-              </Text>
+              <Text style={styles.users}>{item.level}</Text>
             </View>
           )}
           refreshing={this.state.refreshing}
@@ -163,14 +165,15 @@ export default class FlatListComp extends React.Component {
 AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
-    fontSize: 25,
+    fontSize: 15,
     borderWidth: 0,
     padding: 20,
-    width: "50%",
+    width: "30%",
   },
   flex: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   flex1: {
     display: "flex",
@@ -179,11 +182,11 @@ const styles = StyleSheet.create({
   },
   tableTitle: {
     color: "grey",
-    fontSize: 25,
+    fontSize: 20,
     paddingLeft: 20,
     paddingTop: 20,
     marginTop: 20,
-    width: "50%",
+    width: "30%",
   },
   width: {
     borderBottomWidth: 1,

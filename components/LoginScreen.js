@@ -8,15 +8,16 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { Icon } from "react-native-elements";
+import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Login = (props) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onLogin = async (e) => {
-    alert("hello");
     e.preventDefault();
-    const request = await fetch("http://192.168.1.3:8000/api/login", {
+    const request = await fetch("http://192.168.43.79:8000/api/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -42,6 +43,8 @@ const Login = (props) => {
         }
       };
       storeData();
+      const store = await AsyncStorage.getItem("token");
+      alert(store);
     } else {
       alert("You are not authorized to login !");
     }
@@ -49,22 +52,47 @@ const Login = (props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>ERP</Text>
-      <TextInput
-        value={email}
-        keyboardType="email-address"
-        onChangeText={(email) => setEmail(email)}
-        placeholder="Email Address"
-        style={styles.input}
-      />
-      <TextInput
-        value={password}
-        secureTextEntry={true}
-        onChangeText={(password) => setPassword(password)}
-        placeholder="Password"
-        style={styles.input}
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          value={email}
+          keyboardType="email-address"
+          onChangeText={(email) => setEmail(email)}
+          placeholder="Email Address"
+          style={styles.input}
+        />
+        <Icon
+          name="email"
+          color="gold"
+          containerStyle={{
+            paddingTop: 30,
+          }}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          value={password}
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+          placeholder="Password"
+          style={styles.input}
+        />
+        <Icon
+          name="lock"
+          color="gold"
+          containerStyle={{
+            paddingTop: 30,
+          }}
+        />
+      </View>
       <TouchableOpacity style={styles.button} onPress={onLogin}>
         <Text style={styles.buttonText}> Login </Text>
+        <Icon
+          name="login"
+          color="gold"
+          // containerStyle={{
+          //   backgroundColor: "white",
+          // }}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -86,12 +114,14 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "black",
-    width: 200,
+    width: 300,
     padding: 10,
     borderWidth: 1,
     borderColor: "white",
-    borderRadius: 25,
-    marginTop: 30,
+    marginTop: 50,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   buttonText: {
     color: "white",
@@ -100,14 +130,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    width: 200,
+    width: 240,
     fontSize: 20,
-    height: 44,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 5,
-    marginVertical: 15,
+    paddingVertical: 10,
+    marginBottom: 0,
+    marginVertical: 25,
+  },
+  inputContainer: {
+    width: 270,
+    borderBottomWidth: 1,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingBottom: 0,
   },
 });
 
