@@ -13,37 +13,36 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Button } from "react-native";
+// import { navigation } from "react-native";
+var count = 3,
+  rows = 3;
 
-
-
-var count = 10,
-  rows = 10;
-export default class FlatListComp extends React.Component {
+export default class Kpi extends React.Component {
+  // store = async () => {
+  //   AsyncStorage.getItem("token");
+  // };
   constructor(props) {
     super(props);
     this.state = {
       employees: "",
       search: "",
-      test: "",
       page: 1,
       refreshing: false,
       token: "",
     };
     this.updateSearch = this.updateSearch.bind(this);
   }
-  componentWillUnmount() {
-    count = rows;
-  }
 
   componentDidMount() {
     // this.setState({ refreshing: false });
+
     fetch(
-      "http://192.168.1.4:8000/api/employees/" +
+      "http://192.168.43.79:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
-        this.state.page +
-        "&name=" +
-        this.state.search,
+        this.state.page,
       {
         method: "GET",
         headers: {
@@ -58,7 +57,6 @@ export default class FlatListComp extends React.Component {
           this.state.page = this.state.page + 1;
         }
         this.setState({ employees: JSON.parse(res) });
-        count = JSON.parse(res).data.length;
       })
       .catch((error) => {
         console.log(error);
@@ -66,12 +64,10 @@ export default class FlatListComp extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.1.4:8000/api/employees/" +
+      "http://192.168.43.79:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
-        this.state.page +
-        "&name=" +
-        this.state.search,
+        this.state.page,
       {
         method: "GET",
         headers: {
@@ -102,31 +98,6 @@ export default class FlatListComp extends React.Component {
   updateSearch(e) {
     this.setState({ page: 1 });
     this.setState({ search: e });
-    fetch(
-      "http://192.168.1.4:8000/api/employees/" +
-        rows +
-        "?page= 1" +
-        "&name=" +
-        e,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.text())
-      .then((res) => {
-        if (JSON.parse(res).data.length == rows) {
-          this.state.page = this.state.page + 1;
-        }
-        // let x = JSON.parse(res);
-        // if (x.data.length > 1) while (x.data.length > 1) x.data.pop();
-        this.setState({ employees: JSON.parse(res) });
-        count = JSON.parse(res).data.length;
-      })
-      .catch((error) => {});
   }
   onRefresh() {
     count = rows;
@@ -139,45 +110,35 @@ export default class FlatListComp extends React.Component {
       () => this.componentDidMount()
     );
   }
-
+  clearStorage = async () => {
+    try {
+      return await AsyncStorage.clear();
+    } catch (e) {
+      console.log(e);
+    }
+  };
   render() {
-    const color = ["255,255,255", "245, 245, 245"];
-
-    const data = {};
+    console.log(this.state.employees);
+    var color = ["255,255,255", "245, 245, 245"];
 
     return (
       <View style={{ flex: 1, paddingTop: 30 }}>
+        <Button title="logout" onPress={this.clearStorage}></Button>
+
         <SearchBar
-          containerStyle={
-          { backgroundColor: 'wite',
-            borderTopColor:"transparent",
-            borderBottomColor:"transparent",
-            borderRightColor:"transparent",
-            borderLeftColor:"transparent",
-            borderRadius: 90 
-          }
-          }
-          round="true"
-          inputContainerStyle={
-            { 
-              borderWidth: 0,
-              backgroundColor:"rgba(0,0,0,0.2)" , 
-              borderRadius: 90
-            }
-            }
-          placeholderTextColor={'rgba(255,25,146,0.9)'}
-          placeholder={'Search By Name'}
+          placeholder="Type Here..."
           onChangeText={this.updateSearch}
           value={this.state.search}
         />
+        {/* <ScrollView> */}
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Employee</Text>
-          <Text style={styles.tableTitle}>Action</Text>
+          <Text style={styles.tableTitle}>KPI</Text>
+          <Text style={styles.tableTitle}>Level</Text>
         </View>
 
         <FlatList
           keyExtractor={(item, index) => index.toString()}
-          // keyExtractor={item => item.index_id.toString()}
           data={this.state.employees.data}
           renderItem={({ item, index }) => (
             <View
@@ -186,38 +147,17 @@ export default class FlatListComp extends React.Component {
                 { backgroundColor: "rgb(" + color[index % 2] + ")" },
               ]}
             >
+              <Text style={styles.users}>{item.empName}</Text>
               <Text style={styles.users}>{item.name}</Text>
-              <Text style={styles.users}>
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={() =>
-                    this.props.navigation.navigate("ProjectRoles", {
-                      data: item.id,
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>Project</Text>
-                </TouchableOpacity>
-              </Text>
-              <Text style={styles.users}>
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={() =>
-                    this.props.navigation.navigate("Individualkpis", {
-                      data: item.id,
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>Kpis</Text>
-                </TouchableOpacity>
-              </Text>
+              <Text style={styles.users}>{item.level}</Text>
             </View>
           )}
           refreshing={this.state.refreshing}
           onRefresh={() => this.onRefresh()}
           onEndReached={this.handleMore}
-          onEndReachedThreshold={0.1}
+          // onEndReachedThreshold={100}
         ></FlatList>
+        {/* </ScrollView> */}
       </View>
     );
   }
@@ -225,14 +165,15 @@ export default class FlatListComp extends React.Component {
 AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
-    fontSize: 25,
+    fontSize: 15,
     borderWidth: 0,
     padding: 20,
-    width: "40%",
+    width: "30%",
   },
   flex: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   flex1: {
     display: "flex",
@@ -241,11 +182,11 @@ const styles = StyleSheet.create({
   },
   tableTitle: {
     color: "grey",
-    fontSize: 25,
+    fontSize: 20,
     paddingLeft: 20,
     paddingTop: 20,
     marginTop: 20,
-    width: "50%",
+    width: "30%",
   },
   width: {
     borderBottomWidth: 1,

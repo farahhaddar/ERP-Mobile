@@ -1,7 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOutAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -22,37 +27,52 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
   }
-
-
+  clearStorage = async () => {
+    try {
+      await AsyncStorage.removeItem("token");
+    } catch (e) {
+      console.log(e);
+    }
+    this.props.navigation.navigate("login");
+  };
   render() {
     return (
       <SafeAreaView style={styles.cont}>
         <View style={styles.logout}>
-
-          <TouchableOpacity title="EmployeeList " onPress={() => this.props.navigation.navigate('EmployeeList')}>
-            <Text style={styles.logout}><FontAwesomeIcon size={22} icon={faSignOutAlt} /></Text>
+          <TouchableOpacity title="EmployeeList " onPress={this.clearStorage}>
+            <Text style={styles.logout}>
+              <FontAwesomeIcon size={22} icon={faSignOutAlt} />
+            </Text>
           </TouchableOpacity>
-
-        </View>
-
-
-        <View >
-          <Text style={styles.wlc}>   Welcome Admin !   </Text>
         </View>
 
         <View>
-          <Text style={styles.qus}>  What Do You Want To Check?  </Text>
+          <Text style={styles.wlc}> Welcome Admin ! </Text>
         </View>
 
-        <View style={styles.cc} >
+        <View>
+          <Text style={styles.qus}> What Do You Want To Check? </Text>
+        </View>
 
-          <TouchableOpacity style={styles.but} title="EmployeeList " onPress={() => this.props.navigation.navigate('EmployeeList')}>
+        <View style={styles.cc}>
+          <TouchableOpacity
+            style={styles.but}
+            title="EmployeeList "
+            onPress={() => this.props.navigation.navigate("EmployeeList")}
+          >
             <Text style={styles.butTxt}>Employee List </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.but} title="EmployeeList " onPress={() => this.props.navigation.navigate('EmployeeList')}>
+          <TouchableOpacity
+            style={styles.but}
+            title="EmployeeKpi"
+            onPress={() => this.props.navigation.navigate("EmployeeKpi")}
+          >
             <Text style={styles.butTxt}>All Kpis List </Text>
           </TouchableOpacity>
+
+        </View>
+
 
         </View >
         <View  style={styles.footer}>
@@ -60,10 +80,10 @@ export default class HomeScreen extends Component {
         </View>
     
 
+
       </SafeAreaView>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -79,6 +99,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 250,
     backgroundColor: "white",
+
+    // borderWidth: 4,
+    // borderColor: "pink",
+
   },
   but: {
     marginRight: 15,
@@ -89,23 +113,26 @@ const styles = StyleSheet.create({
     width: 140,
     height: 150,
     backgroundColor: "rgb(255,25,146)",
-    borderColor: 'white',
-
+    borderColor: "white",
   },
   butTxt: {
     color: "white",
-    textAlign: 'center',
+    textAlign: "center",
     fontWeight: "bold",
     fontSize: 18,
   },
   logout: {
+
+   marginLeft: 160,
+
   marginTop: 5,
   marginLeft:160,
+
   },
 
   wlc: {
     marginTop: 25,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",
     fontStyle: "italic",
@@ -115,6 +142,8 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontSize: 22,
   },
+
+});
   footer:{
     borderColor: "rgba(0,0,0,0.6)",
     borderWidth: 0,
