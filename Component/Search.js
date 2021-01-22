@@ -23,7 +23,7 @@ const SearchComponent = (props) => {
 
 const styles = StyleSheet.create({
   searchContainer: {
-    backgroundColor: "powderblue",
+    backgroundColor: "rgb(245, 245, 245)",
     width: "100%",
     borderBottomWidth: 0,
     borderTopWidth: 0,
