@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import {
   SafeAreaView,
   StyleSheet,
@@ -54,8 +54,10 @@ export default class HomeScreen extends Component {
             <Text style={styles.butTxt}>All Kpis List </Text>
           </TouchableOpacity>
 
+        </View >
+        <View  style={styles.footer}>
+          <Text  style={styles.foot}>  &#169; ERP 2021</Text>
         </View>
-
     
 
       </SafeAreaView>
@@ -77,12 +79,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 250,
     backgroundColor: "white",
-    // borderWidth: 4,
-    // borderColor: "pink",
-
-
-
-
   },
   but: {
     marginRight: 15,
@@ -103,6 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   logout: {
+  marginTop: 5,
   marginLeft:160,
   },
 
@@ -114,9 +111,23 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
   qus: {
+    textAlign: 'center',
     marginTop: 40,
     fontSize: 22,
   },
+  footer:{
+    borderColor: "rgba(0,0,0,0.6)",
+    borderWidth: 0,
+    borderTopWidth: 2,  
+    marginTop:150
+ 
+  },
+  foot:{
+    color:"rgba(0,0,0,0.6)",
+    marginTop:10,
+    textAlign: 'center',
+  }
+
 
   
 });

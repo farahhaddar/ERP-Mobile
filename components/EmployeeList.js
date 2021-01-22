@@ -147,11 +147,28 @@ export default class FlatListComp extends React.Component {
     return (
       <View style={{ flex: 1, paddingTop: 30 }}>
         <SearchBar
-          placeholder="Type Here..."
+          containerStyle={
+          { backgroundColor: 'wite',
+            borderTopColor:"transparent",
+            borderBottomColor:"transparent",
+            borderRightColor:"transparent",
+            borderLeftColor:"transparent",
+            borderRadius: 90 
+          }
+          }
+          round="true"
+          inputContainerStyle={
+            { 
+              borderWidth: 0,
+              backgroundColor:"rgba(0,0,0,0.2)" , 
+              borderRadius: 90
+            }
+            }
+          placeholderTextColor={'rgba(255,25,146,0.9)'}
+          placeholder={'Search By Name'}
           onChangeText={this.updateSearch}
           value={this.state.search}
         />
-
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Employee</Text>
           <Text style={styles.tableTitle}>Action</Text>
