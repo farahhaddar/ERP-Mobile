@@ -58,6 +58,7 @@ export default class FlatListComp extends React.Component {
           this.state.page = this.state.page + 1;
         }
         this.setState({ Kpis: JSON.parse(res) });
+        count = JSON.parse(res).data.length;
       })
       .catch((error) => {
         console.log(error);
