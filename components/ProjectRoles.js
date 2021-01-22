@@ -29,11 +29,10 @@ export default class ProjectRoles extends React.Component {
     this.updateSearch = this.updateSearch.bind(this);
   }
   componentDidMount() {
-    // var a = this.props.navigation.state.params.something;
-    // alert(a);
     var { data } = this.props.route.params;
-    // alert(data);
+
     empId = data;
+
     fetch(
       "http://192.168.1.105:8000/api/projectRole/" +
         empId +
@@ -109,7 +108,7 @@ export default class ProjectRoles extends React.Component {
         count = JSON.parse(res).data.length;
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   };
   onRefresh() {
@@ -126,7 +125,7 @@ export default class ProjectRoles extends React.Component {
 
   render() {
     var color = ["255,255,255", "245, 245, 245"];
-    // console.log(this.state.employees);
+
     const data = { name: "Ali" };
 
     return (
@@ -161,7 +160,6 @@ export default class ProjectRoles extends React.Component {
           onRefresh={() => this.onRefresh()}
           onEndReached={this.handleMore}
         ></FlatList>
-        {/* </ScrollView> */}
       </View>
     );
   }
