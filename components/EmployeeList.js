@@ -125,7 +125,8 @@ export default class FlatListComp extends React.Component {
         </View>
 
         <FlatList
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index.toString()}  
+          // keyExtractor={item => item.index_id.toString()}
           data={this.state.employees.data}
           renderItem={({ item, index }) => (
             <View

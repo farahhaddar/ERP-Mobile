@@ -15,8 +15,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 
 var empId;
-var count = 3,
-  rows = 3;
+var count = 3,rows = 3;
+
 export default class ProjectRoles extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +31,7 @@ export default class ProjectRoles extends React.Component {
     var { data } = this.props.route.params;
     
     empId = data;
+
     fetch(
       "http://192.168.0.119:8000/api/projectRole/" + empId + "/3" + "?page=1 "
     )
@@ -45,7 +46,7 @@ export default class ProjectRoles extends React.Component {
 
   handleMore = () => {
     fetch(
-      "http://192.168.1.105:8000/api/projectRole/" +
+      "http://192.168.0.119:8000/api/projectRole/" +
         empId +
         "/3" +
         "?page= " +
