@@ -51,6 +51,7 @@ export default class ProjectRoles extends React.Component {
           this.state.page = this.state.page + 1;
         }
         this.setState({ projects: JSON.parse(res) });
+        count = JSON.parse(res).data.length;
       });
   }
   updateSearch(e) {
