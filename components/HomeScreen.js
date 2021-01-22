@@ -1,9 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOutAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
@@ -74,7 +70,8 @@ export default class HomeScreen extends Component {
         </View>
 
 
-        </View >
+       
+
         <View  style={styles.footer}>
           <Text  style={styles.foot}>  &#169; ERP 2021</Text>
         </View>
@@ -142,8 +139,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontSize: 22,
   },
-
-});
   footer:{
     borderColor: "rgba(0,0,0,0.6)",
     borderWidth: 0,
