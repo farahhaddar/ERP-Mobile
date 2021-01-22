@@ -50,7 +50,7 @@ export default class Graph extends React.Component {
     let array = [];
     if (this.state.Kpis.data != undefined) {
       for (let i = 0; i < this.state.Kpis.data.length; i++) {
-        array.push(this.state.Kpis.data[i].level);
+        array.push(parseInt(this.state.Kpis.data[i].level));
       }
     }
     let date = [];
@@ -61,7 +61,7 @@ export default class Graph extends React.Component {
         date.push(level);
       }
     }
-
+    if (array[0] == undefined) array.push(0);
     return (
       <View>
         <Text>Kpi Progress </Text>
