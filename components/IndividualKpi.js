@@ -13,13 +13,9 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChartLine } from '@fortawesome/free-solid-svg-icons';
-
-
-
-
-
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faChartLine } from "@fortawesome/free-solid-svg-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 var count = 10,
   rows = 10;
 var empId;
@@ -31,6 +27,7 @@ export default class FlatListComp extends React.Component {
       Kpis: "",
       search: "",
       page: 1,
+      token: "",
       refreshing: false,
     };
     this.updateSearch = this.updateSearch.bind(this);
@@ -42,46 +39,54 @@ export default class FlatListComp extends React.Component {
     var { data } = this.props.route.params;
 
     empId = data;
-
-    fetch(
-      "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
-      empId +
-      "?page= " +
-      this.state.page+"&name="+this.state.search,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.text())
-      .then((res) => {
-        if (JSON.parse(res).data.length == rows) {
-          this.state.page = this.state.page + 1;
+    AsyncStorage.getItem("token").then((value) => {
+      this.setState({ token: value });
+      fetch(
+        "http://192.168.1.105:8000/api/kpiCurrent/10?empId=" +
+          empId +
+          "?page= " +
+          this.state.page +
+          "&name=" +
+          this.state.search,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            // "Content-Type": "application/json",
+            Authorization: "Bearer " + value,
+          },
         }
-        this.setState({ Kpis: JSON.parse(res) });
-        count = JSON.parse(res).data.length;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      )
+        .then((res) => res.text())
+        .then((res) => {
+          if (JSON.parse(res).data.length == rows) {
+            this.state.page = this.state.page + 1;
+          }
+          this.setState({ Kpis: JSON.parse(res) });
+          count = JSON.parse(res).data.length;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   }
   handleMore = () => {
     var { data } = this.props.route.params;
 
     empId = data;
     fetch(
-      "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
-      empId +
-      "?page= " +
-      this.state.page+"&name="+this.state.search,
+      "http://192.168.1.105:8000/api/kpiCurrent/10?empId=" +
+        empId +
+        "?page= " +
+        this.state.page +
+        "&name=" +
+        this.state.search,
       {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
+          Authorization: "Bearer " + this.state.token,
         },
       }
     )
@@ -108,16 +113,19 @@ export default class FlatListComp extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.0.119:8000/api/kpiCurrent/" +
+      "http://192.168.1.105:8000/api/kpiCurrent/" +
         rows +
         "?page= 1" +
-        "&name=" +e + "&empId=" +
-        empId ,
+        "&name=" +
+        e +
+        "&empId=" +
+        empId,
       {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
+          Authorization: "Bearer " + this.state.token,
         },
       }
     )
@@ -151,24 +159,22 @@ export default class FlatListComp extends React.Component {
     return (
       <View style={styles.SearchBar}>
         <SearchBar
-          containerStyle={
-          { backgroundColor: 'wite',
-            borderTopColor:"transparent",
-            borderBottomColor:"transparent",
-            borderRightColor:"transparent",
-            borderLeftColor:"transparent",
-            borderRadius: 90 
-          }
-          }
+          containerStyle={{
+            backgroundColor: "wite",
+            borderTopColor: "transparent",
+            borderBottomColor: "transparent",
+            borderRightColor: "transparent",
+            borderLeftColor: "transparent",
+            borderRadius: 90,
+          }}
           round="true"
-          inputContainerStyle={
-            {  borderWidth: 0,
-              backgroundColor:"rgba(0,0,0,0.2)" , 
-              borderRadius: 90
-            }
-            }
-          placeholderTextColor={'rgba(255,25,146,0.9)'}
-          placeholder={'Search By Name'}
+          inputContainerStyle={{
+            borderWidth: 0,
+            backgroundColor: "rgba(0,0,0,0.2)",
+            borderRadius: 90,
+          }}
+          placeholderTextColor={"rgba(255,25,146,0.9)"}
+          placeholder={"Search By Name"}
           onChangeText={this.updateSearch}
           value={this.state.search}
         />
@@ -200,7 +206,13 @@ export default class FlatListComp extends React.Component {
                     })
                   }
                 >
-                  <Text style={styles.buttonText}><FontAwesomeIcon color={"rgb(255,25,146)"} size={22} icon={faChartLine} /></Text>
+                  <Text style={styles.buttonText}>
+                    <FontAwesomeIcon
+                      color={"rgb(255,25,146)"}
+                      size={22}
+                      icon={faChartLine}
+                    />
+                  </Text>
                 </TouchableOpacity>
               </Text>
             </View>
@@ -208,7 +220,7 @@ export default class FlatListComp extends React.Component {
           refreshing={this.state.refreshing}
           onRefresh={() => this.onRefresh()}
           onEndReached={this.handleMore}
-        // onEndReachedThreshold={100}
+          // onEndReachedThreshold={100}
         ></FlatList>
       </View>
     );
@@ -249,7 +261,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     borderWidth: 0,
     borderRadius: 90,
-
   },
   g: {
     paddingLeft: 40,
@@ -260,5 +271,4 @@ const styles = StyleSheet.create({
   l: {
     paddingLeft: 30,
   },
-
 });

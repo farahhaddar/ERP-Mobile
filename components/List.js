@@ -37,34 +37,37 @@ export default class Kpi extends React.Component {
 
   componentDidMount() {
     // this.setState({ refreshing: false });
-
-    fetch(
-      "http://192.168.43.79:8000/api/kpiCurrent/" +
-        rows +
-        "?page= " +
-        this.state.page,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.text())
-      .then((res) => {
-        if (JSON.parse(res).data.length == rows) {
-          this.state.page = this.state.page + 1;
+    AsyncStorage.getItem("token").then((value) => {
+      this.setState({ token: value });
+      fetch(
+        "http://192.168.1.105:8000/api/kpiCurrent/" +
+          rows +
+          "?page= " +
+          this.state.page,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            // "Content-Type": "application/json",
+            Authorization: "Bearer " + value,
+          },
         }
-        this.setState({ employees: JSON.parse(res) });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      )
+        .then((res) => res.text())
+        .then((res) => {
+          if (JSON.parse(res).data.length == rows) {
+            this.state.page = this.state.page + 1;
+          }
+          this.setState({ employees: JSON.parse(res) });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   }
   handleMore = () => {
     fetch(
-      "http://192.168.43.79:8000/api/kpiCurrent/" +
+      "http://192.168.1.105:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
         this.state.page,
@@ -72,7 +75,8 @@ export default class Kpi extends React.Component {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
+          Authorization: "Bearer " + this.state.token,
         },
       }
     )
