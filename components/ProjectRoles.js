@@ -13,6 +13,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 var user = ["John", "James", "Lisa"];
 var empId;
 var count = 10,
@@ -25,6 +26,7 @@ export default class ProjectRoles extends React.Component {
       page: 1,
       refreshing: false,
       search: "",
+      token: "",
     };
     this.updateSearch = this.updateSearch.bind(this);
   }
@@ -35,30 +37,41 @@ export default class ProjectRoles extends React.Component {
     var { data } = this.props.route.params;
 
     empId = data;
+    AsyncStorage.getItem("token").then((value) => {
+      this.setState({ token: value });
 
-    fetch(
-      "http://192.168.0.119:8000/api/projectRole/" +
-        empId +
-        "/" +
-        rows +
-        "?page=1 " +
-        "&projectName=" +
-        this.state.search
-    )
-      .then((res) => res.text())
-      .then((res) => {
-        if (JSON.parse(res).data.length == rows) {
-          this.state.page = this.state.page + 1;
+      fetch(
+        "http://192.168.1.105:8000/api/projectRole/" +
+          empId +
+          "/" +
+          rows +
+          "?page=1 " +
+          "&projectName=" +
+          this.state.search,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            // "Content-Type": "application/json",
+            Authorization: "Bearer " + value,
+          },
         }
-        this.setState({ projects: JSON.parse(res) });
-        count = JSON.parse(res).data.length;
-      });
+      )
+        .then((res) => res.text())
+        .then((res) => {
+          if (JSON.parse(res).data.length == rows) {
+            this.state.page = this.state.page + 1;
+          }
+          this.setState({ projects: JSON.parse(res) });
+          count = JSON.parse(res).data.length;
+        });
+    });
   }
   updateSearch(e) {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.0.119:8000/api/projectRole/" +
+      "http://192.168.1.105:8000/api/projectRole/" +
         empId +
         "/" +
         rows +
@@ -69,7 +82,8 @@ export default class ProjectRoles extends React.Component {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
+          Authorization: "Bearer " + this.state.token,
         },
       }
     )
@@ -87,14 +101,21 @@ export default class ProjectRoles extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.0.119:8000/api/projectRole/" +
+      "http://192.168.1.105:8000/api/projectRole/" +
         empId +
         "/" +
         rows +
         "?page= " +
         this.state.page +
         "&projectName=" +
-        this.state.search
+        this.state.search,
+      {
+        headers: {
+          Accept: "application/json",
+          // "Content-Type": "application/json",
+          Authorization: "Bearer " + this.state.token,
+        },
+      }
     )
       .then((res) => res.text())
       .then((res) => {

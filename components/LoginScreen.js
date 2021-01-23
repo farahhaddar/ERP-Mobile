@@ -17,7 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const onLogin = async (e) => {
     e.preventDefault();
-    const request = await fetch("http://192.168.1.4:8000/api/login", {
+    const request = await fetch("http://192.168.1.105:8000/api/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -45,6 +45,7 @@ const Login = () => {
       storeData();
       const store = await AsyncStorage.getItem("token");
       alert(store);
+      console.log(store);
     } else {
       alert("You are not authorized to login !");
     }
