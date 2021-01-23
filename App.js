@@ -11,66 +11,69 @@ import ProjectRoles from "./components/ProjectRoles";
 import Graph from "./components/Graph";
 import EmployeeKpi from "./components/KpiList";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faSignOutAlt, faChartLine,faTasks } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSignOutAlt,
+  faChartLine,
+  faTasks,
+} from "@fortawesome/free-solid-svg-icons";
 
-const AuthStack = createStackNavigator();
-
-const AuthStackScreen = () => (
-  <AuthStack.Navigator
-    initialRouteName="Login"
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <AuthStack.Screen name="Login">
-      {(props) => <Login {...props} />}
-    </AuthStack.Screen>
-  </AuthStack.Navigator>
-);
-
-const Stack = createStackNavigator();
-const StackScreen = () => (
-
-  <Stack.Navigator>
-
-    <Stack.Screen name="Home">
-      {(props) => <HomeScreen {...props} />}
-    </Stack.Screen>
-
-    <Stack.Screen name="EmployeeList"  options={{ headerTitle:"Employees Names List" }}>
-      {(props) => <EmployeeList {...props} />}
-    </Stack.Screen>
-
-    <Stack.Screen name="ProjectRoles"  options={{ headerTitle:"Employee Projects &  Roles" }}>
-      {(props) => <ProjectRoles {...props} />}
-    </Stack.Screen>
-
-    <Stack.Screen name="Individualkpis"  options={{ headerTitle:"Individual  kPI" }}>
-      {(props) => <Individualkpis {...props} />}
-    </Stack.Screen>
-
-    <Stack.Screen
-      name="EmployeeKpi"
-      options={{ headerTitle:"Employee Kpi's  Level" }}
-    >
-      {(props) => <EmployeeKpi {...props} />}
-    </Stack.Screen>
-
-    <Stack.Screen name="Graph"  options={{ headerTitle:"KPI Graph" }}>
-      {(props) => <Graph {...props} />}
-      </Stack.Screen>
-  </Stack.Navigator>
-);
 export default function App() {
+  const [token, setToken] = useState(false);
+  const AuthStack = createStackNavigator();
 
-  const [token, setToken] = useState("");
-  useEffect(() => {
-    const stored = async () => {
-      const token = await AsyncStorage.getItem("token");
-      setToken(token);
-    };
-    stored();
-  }, [token]);
+  const AuthStackScreen = () => (
+    <AuthStack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <AuthStack.Screen name="Login">
+        {(props) => <Login setToken={setToken} />}
+      </AuthStack.Screen>
+    </AuthStack.Navigator>
+  );
+
+  const Stack = createStackNavigator();
+  const StackScreen = () => (
+    <Stack.Navigator>
+      <Stack.Screen name="Home">
+        {(props) => <HomeScreen setToken={setToken} {...props} />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="EmployeeList"
+        options={{ headerTitle: "Employees   Name List" }}
+      >
+        {(props) => <EmployeeList {...props} />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="ProjectRoles"
+        options={{ headerTitle: "Employee Projects &  Roles" }}
+      >
+        {(props) => <ProjectRoles {...props} />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="Individualkpis"
+        options={{ headerTitle: "Individual  kPI" }}
+      >
+        {(props) => <Individualkpis {...props} />}
+      </Stack.Screen>
+
+      <Stack.Screen
+        name="EmployeeKpi"
+        options={{ headerTitle: "Employee   Kpi's   Level" }}
+      >
+        {(props) => <EmployeeKpi {...props} />}
+      </Stack.Screen>
+
+      <Stack.Screen name="Graph" options={{ headerTitle: "KPI Graph" }}>
+        {(props) => <Graph {...props} />}
+      </Stack.Screen>
+    </Stack.Navigator>
+  );
 
   return (
     <NavigationContainer>

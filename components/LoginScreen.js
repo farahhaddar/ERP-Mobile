@@ -12,12 +12,12 @@ import { Icon } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Login = () => {
+const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onLogin = async (e) => {
     e.preventDefault();
-    const request = await fetch("http://192.168.0.119:8000/api/login", {
+    const request = await fetch("http://192.168.1.105:8000/api/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -31,20 +31,19 @@ const Login = () => {
     const response = await request.json();
     const result = request.status;
     if (result == 200) {
-      alert("Login Successfully");
       const storeData = async () => {
         const token = response.access_token;
         const user = JSON.stringify(response.user);
         try {
           await AsyncStorage.setItem("token", token);
           await AsyncStorage.setItem("user", user);
+          props.setToken(true);
         } catch (e) {
           console.log(e);
         }
       };
       storeData();
       const store = await AsyncStorage.getItem("token");
-      alert(store);
       console.log(store);
     } else {
       alert("You are not authorized to login !");
@@ -52,11 +51,11 @@ const Login = () => {
   };
   return (
     <View style={styles.container}>
-      <View  style={styles.cont}  >
-      <Text style={styles.titleText}>ERP</Text>
+      <View style={styles.cont}>
+        <Text style={styles.titleText}>ERP</Text>
       </View>
       <View style={styles.inputContainer}>
-      <Icon
+        <Icon
           name="email"
           color="rgb(255,25,146)"
           containerStyle={{
@@ -70,10 +69,9 @@ const Login = () => {
           placeholder="Email Address"
           style={styles.input}
         />
-       
       </View>
       <View style={styles.inputContainer}>
-      <Icon
+        <Icon
           name="lock"
           color="rgb(255,25,146)"
           containerStyle={{
@@ -87,15 +85,10 @@ const Login = () => {
           placeholder="Password"
           style={styles.input}
         />
-        
       </View>
       <TouchableOpacity style={styles.button} onPress={onLogin}>
-      <Icon
-          name="login"
-          color="white"
-        />
+        <Icon name="login" color="white" />
         <Text style={styles.buttonText}> Login </Text>
-       
       </TouchableOpacity>
     </View>
   );
@@ -105,24 +98,24 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     alignItems: "center",
-  
+
     // justifyContent: "center",
-  
+
     backgroundColor: "black",
   },
-  cont:{
-      marginTop:100,
-      fontWeight:"bold",
-      width:100,
-      height:100,
-      textAlign:"center",
-      borderRadius:100,
-      backgroundColor: "white",
-      marginBottom:30,
+  cont: {
+    marginTop: 100,
+    fontWeight: "bold",
+    width: 100,
+    height: 100,
+    textAlign: "center",
+    borderRadius: 100,
+    backgroundColor: "white",
+    marginBottom: 30,
   },
   titleText: {
-   paddingTop:30,
-    color:"rgb(255,25,146)",
+    paddingTop: 30,
+    color: "rgb(255,25,146)",
     paddingBottom: 50,
     fontSize: 40,
   },
@@ -137,13 +130,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    borderRadius:30
+    borderRadius: 30,
   },
   buttonText: {
     color: "white",
     fontSize: 20,
     alignItems: "center",
-    fontWeight:"bold",
+    fontWeight: "bold",
     justifyContent: "center",
   },
   input: {
@@ -152,7 +145,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 0,
     marginVertical: 25,
-    color:"white"
+    color: "white",
   },
   inputContainer: {
     width: 270,
@@ -161,7 +154,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: 0,
-    borderColor:"white"
+    borderColor: "white",
   },
 });
 

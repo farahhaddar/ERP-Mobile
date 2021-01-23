@@ -22,31 +22,31 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { navigation } from "react-native";
 import { ViewComponent } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      admin: "",}
+      admin: "",
+    };
   }
   clearStorage = async () => {
     try {
       await AsyncStorage.removeItem("token");
       await AsyncStorage.removeItem("user");
+      this.props.setToken(false);
     } catch (e) {
       console.log(e);
     }
-    this.props.navigation.navigate("login");
   };
 
   componentDidMount() {
     AsyncStorage.getItem("user").then((value) =>
-      this.setState({ admin: JSON.parse(value) }),)
-      }
+      this.setState({ admin: JSON.parse(value) })
+    );
+  }
 
   render() {
-     
-
     return (
       <SafeAreaView style={styles.cont}>
         <View style={styles.logout}>

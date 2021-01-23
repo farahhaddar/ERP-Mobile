@@ -14,8 +14,6 @@ import SearchComponent from "../Component/Search";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SearchBar } from "react-native-elements";
 
-
-
 var count = 10,
   rows = 10;
 export default class EmployeeKpi extends React.Component {
@@ -40,7 +38,7 @@ export default class EmployeeKpi extends React.Component {
     AsyncStorage.getItem("token").then((value) => {
       this.setState({ token: value });
       fetch(
-        "http://192.168.0.119:8000/api/kpiCurrent/" +
+        "http://192.168.1.105:8000/api/kpiCurrent/" +
           rows +
           "?page= " +
           this.state.page +
@@ -70,7 +68,7 @@ export default class EmployeeKpi extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.0.119:8000/api/kpiCurrent/" +
+      "http://192.168.1.105:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
         this.state.page +
@@ -108,7 +106,7 @@ export default class EmployeeKpi extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.0.119:8000/api/kpiCurrent/" +
+      "http://192.168.1.105:8000/api/kpiCurrent/" +
         rows +
         "?page= 1" +
         "&empName=" +
@@ -152,7 +150,7 @@ export default class EmployeeKpi extends React.Component {
     const color = ["255,255,255", "245, 245, 245"];
 
     return (
-        <View style={styles.SearchBar}>
+      <View style={styles.SearchBar}>
         <SearchBar
           containerStyle={{
             backgroundColor: "wite",
@@ -174,12 +172,10 @@ export default class EmployeeKpi extends React.Component {
           value={this.state.search}
         />
 
-
-
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Employee</Text>
-          <Text style={[styles.tableTitle,styles.t]}>KPI</Text>
-          <Text style={[styles.tableTitle,styles.t]}>Level</Text>
+          <Text style={[styles.tableTitle, styles.t]}>KPI</Text>
+          <Text style={[styles.tableTitle, styles.t]}>Level</Text>
         </View>
 
         <FlatList
@@ -196,7 +192,6 @@ export default class EmployeeKpi extends React.Component {
               <Text style={[styles.users, styles.n]}>{item.empName}</Text>
               <Text style={[styles.users, styles.l]}>{item.name}</Text>
               <Text style={[styles.users, styles.g]}>{item.level}</Text>
-              
             </View>
           )}
           refreshing={this.state.refreshing}
@@ -253,7 +248,7 @@ const styles = StyleSheet.create({
   l: {
     paddingLeft: 30,
   },
-  t:{
+  t: {
     paddingLeft: 40,
-  }
+  },
 });

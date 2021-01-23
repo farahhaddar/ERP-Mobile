@@ -41,7 +41,7 @@ export default class ProjectRoles extends React.Component {
       this.setState({ token: value });
 
       fetch(
-        "http://192.168.0.119:8000/api/projectRole/" +
+        "http://192.168.1.105:8000/api/projectRole/" +
           empId +
           "/" +
           rows +
@@ -71,7 +71,7 @@ export default class ProjectRoles extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.0.119:8000/api/projectRole/" +
+      "http://192.168.1.105:8000/api/projectRole/" +
         empId +
         "/" +
         rows +
@@ -101,7 +101,7 @@ export default class ProjectRoles extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.0.119:8000/api/projectRole/" +
+      "http://192.168.1.105:8000/api/projectRole/" +
         empId +
         "/" +
         rows +
@@ -155,7 +155,6 @@ export default class ProjectRoles extends React.Component {
 
     return (
       <View style={{ flex: 1, paddingTop: 30 }}>
-        
         <SearchBar
           containerStyle={{
             backgroundColor: "wite",
@@ -177,14 +176,11 @@ export default class ProjectRoles extends React.Component {
           value={this.state.search}
         />
 
-
-
-
         {/* <ScrollView> */}
 
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Project</Text>
-          <Text style={[styles.tableTitle,styles.b]}>Role</Text>
+          <Text style={[styles.tableTitle, styles.b]}>Role</Text>
         </View>
 
         <FlatList
@@ -197,7 +193,7 @@ export default class ProjectRoles extends React.Component {
                 { backgroundColor: "rgb(" + color[index % 2] + ")" },
               ]}
             >
-              <Text style={[styles.users,styles.a]}>{item.projectName}</Text>
+              <Text style={[styles.users, styles.a]}>{item.projectName}</Text>
               <Text style={styles.users}>{item.roleName}</Text>
             </View>
           )}
@@ -245,10 +241,10 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 90,
   },
-  a:{
+  a: {
     paddingLeft: 30,
   },
-  b:{
+  b: {
     paddingLeft: 70,
-  }
+  },
 });

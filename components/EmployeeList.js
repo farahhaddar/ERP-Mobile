@@ -39,7 +39,7 @@ export default class FlatListComp extends React.Component {
     AsyncStorage.getItem("token").then((value) => {
       this.setState({ token: value });
       fetch(
-        "http://192.168.0.119:8000/api/employees/" +
+        "http://192.168.1.105:8000/api/employees/" +
           rows +
           "?page= " +
           this.state.page +
@@ -70,7 +70,7 @@ export default class FlatListComp extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.0.119:8000/api/employees/" +
+      "http://192.168.1.105:8000/api/employees/" +
         rows +
         "?page= " +
         this.state.page +
@@ -108,7 +108,7 @@ export default class FlatListComp extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.0.119:8000/api/employees/" +
+      "http://192.168.1.105:8000/api/employees/" +
         rows +
         "?page= 1" +
         "&name=" +
@@ -175,8 +175,8 @@ export default class FlatListComp extends React.Component {
         />
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Employee</Text>
-          <Text style={[styles.tableTitle,styles.t]}>Projects</Text>
-          <Text style={[styles.tableTitle,styles.t]}>KPIS</Text>
+          <Text style={[styles.tableTitle, styles.t]}>Projects</Text>
+          <Text style={[styles.tableTitle, styles.t]}>KPIS</Text>
         </View>
 
         <FlatList
@@ -199,8 +199,7 @@ export default class FlatListComp extends React.Component {
                     })
                   }
                 >
-
-                   <Text style={[styles.buttonText,styles.g]}>
+                  <Text style={[styles.buttonText, styles.g]}>
                     <FontAwesomeIcon
                       color={"rgb(255,25,146)"}
                       size={22}
@@ -208,7 +207,6 @@ export default class FlatListComp extends React.Component {
                     />
                   </Text>
                 </TouchableOpacity>
-
               </Text>
               <Text style={styles.users}>
                 <TouchableOpacity
@@ -219,7 +217,7 @@ export default class FlatListComp extends React.Component {
                     })
                   }
                 >
-                  <Text style={[styles.buttonText,styles.g]}>
+                  <Text style={[styles.buttonText, styles.g]}>
                     <FontAwesomeIcon
                       color={"rgb(0,0,0)"}
                       size={22}
@@ -278,7 +276,7 @@ const styles = StyleSheet.create({
   g: {
     paddingLeft: 31,
   },
-  t:{
+  t: {
     paddingLeft: 35,
-  }
+  },
 });
