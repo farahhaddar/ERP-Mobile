@@ -10,8 +10,8 @@ import Individualkpis from "./components/IndividualKpi";
 import ProjectRoles from "./components/ProjectRoles";
 import Graph from "./components/Graph";
 import EmployeeKpi from "./components/KpiList";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faSignOutAlt, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faSignOutAlt, faChartLine } from "@fortawesome/free-solid-svg-icons";
 
 const AuthStack = createStackNavigator();
 
@@ -64,10 +64,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-
       {token ? <StackScreen /> : <AuthStackScreen />}
 
-      <Stack.Navigator>
+      {/* <Stack.Navigator>
 
         
         <Stack.Screen name="HomeScreen"  >
@@ -88,7 +87,7 @@ export default function App() {
 
 
         
-      </Stack.Navigator>
+      </Stack.Navigator> */}
     </NavigationContainer>
   );
 }

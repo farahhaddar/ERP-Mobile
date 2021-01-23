@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import SearchComponent from "../Component/Search";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { navigation } from "react-native";
 var flowers = [{ key: "asdasd1" }, { key: "asdasd2" }];
 var count = 10,
@@ -34,36 +35,40 @@ export default class EmployeeKpi extends React.Component {
 
   componentDidMount() {
     // this.setState({ refreshing: false });
-    fetch(
-      "http://192.168.1.4:8000/api/kpiCurrent/" +
-        rows +
-        "?page= " +
-        this.state.page +
-        "&empName=" +
-        this.state.search,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.text())
-      .then((res) => {
-        if (JSON.parse(res).data.length == rows) {
-          this.state.page = this.state.page + 1;
+    AsyncStorage.getItem("token").then((value) => {
+      this.setState({ token: value });
+      fetch(
+        "http://192.168.1.105:8000/api/kpiCurrent/" +
+          rows +
+          "?page= " +
+          this.state.page +
+          "&empName=" +
+          this.state.search,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            // "Content-Type": "application/json",
+            Authorization: "Bearer " + value,
+          },
         }
-        this.setState({ employees: JSON.parse(res) });
-        count = JSON.parse(res).data.length;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      )
+        .then((res) => res.text())
+        .then((res) => {
+          if (JSON.parse(res).data.length == rows) {
+            this.state.page = this.state.page + 1;
+          }
+          this.setState({ employees: JSON.parse(res) });
+          count = JSON.parse(res).data.length;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   }
   handleMore = () => {
     fetch(
-      "http://192.168.1.4:8000/api/kpiCurrent/" +
+      "http://192.168.1.105:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
         this.state.page +
@@ -73,7 +78,8 @@ export default class EmployeeKpi extends React.Component {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
+          Authorization: "Bearer " + this.state.token,
         },
       }
     )
@@ -100,7 +106,7 @@ export default class EmployeeKpi extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.1.4:8000/api/kpiCurrent/" +
+      "http://192.168.1.105:8000/api/kpiCurrent/" +
         rows +
         "?page= 1" +
         "&empName=" +
@@ -109,7 +115,8 @@ export default class EmployeeKpi extends React.Component {
         method: "GET",
         headers: {
           Accept: "application/json",
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
+          Authorization: "Bearer " + this.state.token,
         },
       }
     )
