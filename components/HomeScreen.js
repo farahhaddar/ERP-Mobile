@@ -30,10 +30,11 @@ export default class HomeScreen extends Component {
   clearStorage = async () => {
     try {
       await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("user");
+      this.props.setToken(false);
     } catch (e) {
       console.log(e);
     }
-    this.props.navigation.navigate("login");
   };
   render() {
     return (

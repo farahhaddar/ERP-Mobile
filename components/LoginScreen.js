@@ -12,12 +12,12 @@ import { Icon } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Login = () => {
+const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const onLogin = async (e) => {
     e.preventDefault();
-    const request = await fetch("http://192.168.0.119:8000/api/login", {
+    const request = await fetch("http://192.168.1.6:8000/api/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -31,20 +31,19 @@ const Login = () => {
     const response = await request.json();
     const result = request.status;
     if (result == 200) {
-      alert("Login Successfully");
       const storeData = async () => {
         const token = response.access_token;
         const user = JSON.stringify(response.user);
         try {
           await AsyncStorage.setItem("token", token);
           await AsyncStorage.setItem("user", user);
+          props.setToken(true);
         } catch (e) {
           console.log(e);
         }
       };
       storeData();
       const store = await AsyncStorage.getItem("token");
-      alert(store);
       console.log(store);
     } else {
       alert("You are not authorized to login !");
@@ -63,7 +62,7 @@ const Login = () => {
         />
         <Icon
           name="email"
-          color="gold"
+          color="rgb(255,25,146)"
           containerStyle={{
             paddingTop: 30,
           }}
@@ -79,7 +78,7 @@ const Login = () => {
         />
         <Icon
           name="lock"
-          color="gold"
+          color="rgb(255,25,146)"
           containerStyle={{
             paddingTop: 30,
           }}
@@ -89,7 +88,7 @@ const Login = () => {
         <Text style={styles.buttonText}> Login </Text>
         <Icon
           name="login"
-          color="gold"
+          color="rgb(255,25,146)"
           // containerStyle={{
           //   backgroundColor: "white",
           // }}

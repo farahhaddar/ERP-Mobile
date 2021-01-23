@@ -42,7 +42,7 @@ export default class FlatListComp extends React.Component {
     AsyncStorage.getItem("token").then((value) => {
       this.setState({ token: value });
       fetch(
-        "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
+        "http://192.168.1.6:8000/api/kpiCurrent/10?empId=" +
           empId +
           "?page= " +
           this.state.page +
@@ -75,7 +75,7 @@ export default class FlatListComp extends React.Component {
 
     empId = data;
     fetch(
-      "http://192.168.0.119:8000/api/kpiCurrent/10?empId=" +
+      "http://192.168.1.6:8000/api/kpiCurrent/10?empId=" +
         empId +
         "?page= " +
         this.state.page +
@@ -113,7 +113,7 @@ export default class FlatListComp extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.0.119:8000/api/kpiCurrent/" +
+      "http://192.168.1.6:8000/api/kpiCurrent/" +
         rows +
         "?page= 1" +
         "&name=" +
