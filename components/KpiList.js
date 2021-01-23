@@ -38,7 +38,7 @@ export default class EmployeeKpi extends React.Component {
     AsyncStorage.getItem("token").then((value) => {
       this.setState({ token: value });
       fetch(
-        "http://192.168.1.6:8000/api/kpiCurrent/" +
+        "http://192.168.1.105:8000/api/kpiCurrent/" +
           rows +
           "?page= " +
           this.state.page +
@@ -68,7 +68,7 @@ export default class EmployeeKpi extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.1.6:8000/api/kpiCurrent/" +
+      "http://192.168.1.105:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
         this.state.page +
@@ -106,7 +106,7 @@ export default class EmployeeKpi extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.1.6:8000/api/kpiCurrent/" +
+      "http://192.168.1.105:8000/api/kpiCurrent/" +
         rows +
         "?page= 1" +
         "&empName=" +
