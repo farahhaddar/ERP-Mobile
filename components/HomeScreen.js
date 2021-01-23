@@ -22,7 +22,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { navigation } from "react-native";
 import { ViewComponent } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
