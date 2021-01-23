@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,16 +26,27 @@ import { ViewComponent } from "react-native";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      admin: "",}
   }
   clearStorage = async () => {
     try {
       await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("user");
     } catch (e) {
       console.log(e);
     }
     this.props.navigation.navigate("login");
   };
+
+  componentDidMount() {
+    AsyncStorage.getItem("user").then((value) =>
+      this.setState({ admin: JSON.parse(value) }),)
+      }
+
   render() {
+     
+
     return (
       <SafeAreaView style={styles.cont}>
         <View style={styles.logout}>
@@ -47,7 +58,7 @@ export default class HomeScreen extends Component {
         </View>
 
         <View>
-          <Text style={styles.wlc}> Welcome Admin ! </Text>
+          <Text style={styles.wlc}> Welcome {this.state.admin.name} ! </Text>
         </View>
 
         <View>

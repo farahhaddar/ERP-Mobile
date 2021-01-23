@@ -242,7 +242,7 @@ export default class FlatListComp extends React.Component {
 AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
-    fontSize: 20,
+    fontSize: 18,
     borderWidth: 0,
     padding: 20,
     width: "35%",

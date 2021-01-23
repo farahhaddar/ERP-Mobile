@@ -37,7 +37,7 @@ const StackScreen = () => (
       {(props) => <HomeScreen {...props} />}
     </Stack.Screen>
 
-    <Stack.Screen name="EmployeeList"  options={{ headerTitle:"Employees   Name List" }}>
+    <Stack.Screen name="EmployeeList"  options={{ headerTitle:"Employees Names List" }}>
       {(props) => <EmployeeList {...props} />}
     </Stack.Screen>
 
@@ -51,7 +51,7 @@ const StackScreen = () => (
 
     <Stack.Screen
       name="EmployeeKpi"
-      options={{ headerTitle:"Employee   Kpi's   Level" }}
+      options={{ headerTitle:"Employee Kpi's  Level" }}
     >
       {(props) => <EmployeeKpi {...props} />}
     </Stack.Screen>
