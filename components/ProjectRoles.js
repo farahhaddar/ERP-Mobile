@@ -41,7 +41,7 @@ export default class ProjectRoles extends React.Component {
       this.setState({ token: value });
 
       fetch(
-        "http://192.168.1.105:8000/api/projectRole/" +
+        "http://192.168.0.119:8000/api/projectRole/" +
           empId +
           "/" +
           rows +
@@ -71,7 +71,7 @@ export default class ProjectRoles extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.1.105:8000/api/projectRole/" +
+      "http://192.168.0.119:8000/api/projectRole/" +
         empId +
         "/" +
         rows +
@@ -101,7 +101,7 @@ export default class ProjectRoles extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.1.105:8000/api/projectRole/" +
+      "http://192.168.0.119:8000/api/projectRole/" +
         empId +
         "/" +
         rows +
@@ -155,11 +155,31 @@ export default class ProjectRoles extends React.Component {
 
     return (
       <View style={{ flex: 1, paddingTop: 30 }}>
+        
         <SearchBar
-          placeholder="Type Here..."
+          containerStyle={{
+            backgroundColor: "wite",
+            borderTopColor: "transparent",
+            borderBottomColor: "transparent",
+            borderRightColor: "transparent",
+            borderLeftColor: "transparent",
+            borderRadius: 90,
+          }}
+          round="true"
+          inputContainerStyle={{
+            borderWidth: 0,
+            backgroundColor: "rgba(0,0,0,0.2)",
+            borderRadius: 90,
+          }}
+          placeholderTextColor={"rgba(255,25,146,0.9)"}
+          placeholder={"Search By Name"}
           onChangeText={this.updateSearch}
           value={this.state.search}
         />
+
+
+
+
         {/* <ScrollView> */}
 
         <View style={[styles.flex, { position: "relative" }]}>
@@ -192,10 +212,10 @@ export default class ProjectRoles extends React.Component {
 AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
-    fontSize: 25,
+    fontSize: 20,
     borderWidth: 0,
-    padding: 20,
-    width: "50%",
+    padding: 19,
+    width: "55%",
   },
   flex: {
     display: "flex",
@@ -207,15 +227,23 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(245, 245, 245)",
   },
   tableTitle: {
+    fontWeight: "bold",
     color: "grey",
-    fontSize: 25,
+    fontSize: 22,
     paddingLeft: 20,
     paddingTop: 20,
-    marginTop: 20,
-    width: "50%",
+    marginTop: 15,
+    width: "55%",
   },
   width: {
     borderBottomWidth: 1,
     borderBottomColor: "grey",
   },
+  SearchBar: {
+    flex: 1,
+    paddingTop: 8,
+    borderWidth: 0,
+    borderRadius: 90,
+  },
+
 });

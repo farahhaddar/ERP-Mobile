@@ -14,7 +14,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SearchBar } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faProjectDiagram, faTasks } from "@fortawesome/free-solid-svg-icons";
 var count = 10,
   rows = 10;
 export default class FlatListComp extends React.Component {
@@ -38,7 +39,7 @@ export default class FlatListComp extends React.Component {
     AsyncStorage.getItem("token").then((value) => {
       this.setState({ token: value });
       fetch(
-        "http://192.168.1.105:8000/api/employees/" +
+        "http://192.168.0.119:8000/api/employees/" +
           rows +
           "?page= " +
           this.state.page +
@@ -69,7 +70,7 @@ export default class FlatListComp extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.1.105:8000/api/employees/" +
+      "http://192.168.0.119:8000/api/employees/" +
         rows +
         "?page= " +
         this.state.page +
@@ -107,7 +108,7 @@ export default class FlatListComp extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.1.105:8000/api/employees/" +
+      "http://192.168.0.119:8000/api/employees/" +
         rows +
         "?page= 1" +
         "&name=" +
@@ -174,12 +175,12 @@ export default class FlatListComp extends React.Component {
         />
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Employee</Text>
-          <Text style={styles.tableTitle}>Action</Text>
+          <Text style={[styles.tableTitle,styles.t]}>Projects</Text>
+          <Text style={[styles.tableTitle,styles.t]}>KPIS</Text>
         </View>
 
         <FlatList
           keyExtractor={(item, index) => index.toString()}
-          // keyExtractor={item => item.index_id.toString()}
           data={this.state.employees.data}
           renderItem={({ item, index }) => (
             <View
@@ -198,8 +199,16 @@ export default class FlatListComp extends React.Component {
                     })
                   }
                 >
-                  <Text style={styles.buttonText}>Project</Text>
+
+                   <Text style={[styles.buttonText,styles.g]}>
+                    <FontAwesomeIcon
+                      color={"rgb(255,25,146)"}
+                      size={22}
+                      icon={faProjectDiagram}
+                    />
+                  </Text>
                 </TouchableOpacity>
+
               </Text>
               <Text style={styles.users}>
                 <TouchableOpacity
@@ -210,7 +219,13 @@ export default class FlatListComp extends React.Component {
                     })
                   }
                 >
-                  <Text style={styles.buttonText}>Kpis</Text>
+                  <Text style={[styles.buttonText,styles.g]}>
+                    <FontAwesomeIcon
+                      color={"rgb(0,0,0)"}
+                      size={22}
+                      icon={faTasks}
+                    />
+                  </Text>
                 </TouchableOpacity>
               </Text>
             </View>
@@ -227,10 +242,10 @@ export default class FlatListComp extends React.Component {
 AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
-    fontSize: 25,
+    fontSize: 20,
     borderWidth: 0,
     padding: 20,
-    width: "40%",
+    width: "35%",
   },
   flex: {
     display: "flex",
@@ -242,15 +257,28 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(245, 245, 245)",
   },
   tableTitle: {
+    fontWeight: "bold",
     color: "grey",
-    fontSize: 25,
-    paddingLeft: 20,
+    fontSize: 22,
+    paddingLeft: 10,
     paddingTop: 20,
-    marginTop: 20,
-    width: "50%",
+    marginTop: 15,
+    width: "35%",
   },
   width: {
     borderBottomWidth: 1,
     borderBottomColor: "grey",
   },
+  SearchBar: {
+    flex: 1,
+    paddingTop: 8,
+    borderWidth: 0,
+    borderRadius: 90,
+  },
+  g: {
+    paddingLeft: 31,
+  },
+  t:{
+    paddingLeft: 35,
+  }
 });

@@ -12,8 +12,10 @@ import {
 } from "react-native";
 import SearchComponent from "../Component/Search";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { navigation } from "react-native";
-var flowers = [{ key: "asdasd1" }, { key: "asdasd2" }];
+import { SearchBar } from "react-native-elements";
+
+
+
 var count = 10,
   rows = 10;
 export default class EmployeeKpi extends React.Component {
@@ -38,7 +40,7 @@ export default class EmployeeKpi extends React.Component {
     AsyncStorage.getItem("token").then((value) => {
       this.setState({ token: value });
       fetch(
-        "http://192.168.1.105:8000/api/kpiCurrent/" +
+        "http://192.168.0.119:8000/api/kpiCurrent/" +
           rows +
           "?page= " +
           this.state.page +
@@ -68,7 +70,7 @@ export default class EmployeeKpi extends React.Component {
   }
   handleMore = () => {
     fetch(
-      "http://192.168.1.105:8000/api/kpiCurrent/" +
+      "http://192.168.0.119:8000/api/kpiCurrent/" +
         rows +
         "?page= " +
         this.state.page +
@@ -106,7 +108,7 @@ export default class EmployeeKpi extends React.Component {
     this.setState({ page: 1 });
     this.setState({ search: e });
     fetch(
-      "http://192.168.1.105:8000/api/kpiCurrent/" +
+      "http://192.168.0.119:8000/api/kpiCurrent/" +
         rows +
         "?page= 1" +
         "&empName=" +
@@ -150,16 +152,34 @@ export default class EmployeeKpi extends React.Component {
     const color = ["255,255,255", "245, 245, 245"];
 
     return (
-      <View style={{ flex: 1 }}>
-        <SearchComponent
-          searchInput={this.updateSearch}
-          change={this.state.search}
+        <View style={styles.SearchBar}>
+        <SearchBar
+          containerStyle={{
+            backgroundColor: "wite",
+            borderTopColor: "transparent",
+            borderBottomColor: "transparent",
+            borderRightColor: "transparent",
+            borderLeftColor: "transparent",
+            borderRadius: 90,
+          }}
+          round="true"
+          inputContainerStyle={{
+            borderWidth: 0,
+            backgroundColor: "rgba(0,0,0,0.2)",
+            borderRadius: 90,
+          }}
+          placeholderTextColor={"rgba(255,25,146,0.9)"}
+          placeholder={"Search By Name"}
+          onChangeText={this.updateSearch}
+          value={this.state.search}
         />
+
+
 
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Employee</Text>
-          <Text style={styles.tableTitle}>KPI</Text>
-          <Text style={styles.tableTitle}>Level</Text>
+          <Text style={[styles.tableTitle,styles.t]}>KPI</Text>
+          <Text style={[styles.tableTitle,styles.t]}>Level</Text>
         </View>
 
         <FlatList
@@ -173,34 +193,10 @@ export default class EmployeeKpi extends React.Component {
                 { backgroundColor: "rgb(" + color[index % 2] + ")" },
               ]}
             >
-              <Text style={styles.users}>{item.empName}</Text>
-              <Text style={styles.users}>{item.name}</Text>
-              <Text style={styles.users}>{item.level}</Text>
-              {/* <Text style={styles.users}>{item.name}</Text>
-              <Text style={styles.users}>
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={() =>
-                    this.props.navigation.navigate("ProjectRoles", {
-                      data: item.id,
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>Project</Text>
-                </TouchableOpacity>
-              </Text>
-              <Text style={styles.users}>
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={() =>
-                    this.props.navigation.navigate("Individualkpis", {
-                      data: item.id,
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>Kpis</Text>
-                </TouchableOpacity>
-              </Text> */}
+              <Text style={[styles.users, styles.n]}>{item.empName}</Text>
+              <Text style={[styles.users, styles.l]}>{item.name}</Text>
+              <Text style={[styles.users, styles.g]}>{item.level}</Text>
+              
             </View>
           )}
           refreshing={this.state.refreshing}
@@ -215,15 +211,14 @@ export default class EmployeeKpi extends React.Component {
 AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
-    fontSize: 15,
+    fontSize: 20,
     borderWidth: 0,
     padding: 20,
-    width: "33%",
+    width: "35%",
   },
   flex: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   flex1: {
     display: "flex",
@@ -231,15 +226,34 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(245, 245, 245)",
   },
   tableTitle: {
+    fontWeight: "bold",
     color: "grey",
-    fontSize: 20,
-    paddingLeft: 20,
-    paddingTop: 10,
-    marginBottom: 20,
-    width: "33%",
+    fontSize: 22,
+    paddingLeft: 10,
+    paddingTop: 20,
+    marginTop: 15,
+    width: "35%",
   },
   width: {
     borderBottomWidth: 1,
     borderBottomColor: "grey",
   },
+  SearchBar: {
+    flex: 1,
+    paddingTop: 8,
+    borderWidth: 0,
+    borderRadius: 90,
+  },
+  g: {
+    paddingLeft: 60,
+  },
+  n: {
+    paddingLeft: 10,
+  },
+  l: {
+    paddingLeft: 30,
+  },
+  t:{
+    paddingLeft: 40,
+  }
 });

@@ -11,7 +11,7 @@ import ProjectRoles from "./components/ProjectRoles";
 import Graph from "./components/Graph";
 import EmployeeKpi from "./components/KpiList";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faSignOutAlt, faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, faChartLine,faTasks } from "@fortawesome/free-solid-svg-icons";
 
 const AuthStack = createStackNavigator();
 
@@ -33,30 +33,30 @@ const StackScreen = () => (
 
   <Stack.Navigator>
 
-    <Stack.Screen name="HomeScreen">
+    <Stack.Screen name="Home">
       {(props) => <HomeScreen {...props} />}
     </Stack.Screen>
 
-    <Stack.Screen name="EmployeeList">
+    <Stack.Screen name="EmployeeList"  options={{ headerTitle:"Employees   Name List" }}>
       {(props) => <EmployeeList {...props} />}
     </Stack.Screen>
 
-    <Stack.Screen name="ProjectRoles">
+    <Stack.Screen name="ProjectRoles"  options={{ headerTitle:"Employee Projects &  Roles" }}>
       {(props) => <ProjectRoles {...props} />}
     </Stack.Screen>
 
-    <Stack.Screen name="Individualkpis">
+    <Stack.Screen name="Individualkpis"  options={{ headerTitle:"Individual  kPI" }}>
       {(props) => <Individualkpis {...props} />}
     </Stack.Screen>
 
     <Stack.Screen
       name="EmployeeKpi"
-      options={{ headerTitle: "Employee   Kpi's   Level" }}
+      options={{ headerTitle:"Employee   Kpi's   Level" }}
     >
       {(props) => <EmployeeKpi {...props} />}
     </Stack.Screen>
 
-    <Stack.Screen name="Graph">
+    <Stack.Screen name="Graph"  options={{ headerTitle:"KPI Graph" }}>
       {(props) => <Graph {...props} />}
       </Stack.Screen>
   </Stack.Navigator>
@@ -75,26 +75,6 @@ export default function App() {
   return (
     <NavigationContainer>
       {token ? <StackScreen /> : <AuthStackScreen />}
-      {/* <Stack.Navigator>
-
-        
-        <Stack.Screen name="HomeScreen"  >
-          {(props) => <HomeScreen {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="EmployeeList">
-          {(props) => <EmployeeList {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="ProjectRoles">
-          {(props) => <ProjectRoles {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="Individualkpis" >
-          {(props) => <Individualkpis {...props} />}
-        </Stack.Screen>
-        <Stack.Screen name="Graph">
-          {(props) => <Graph {...props} />}
-        </Stack.Screen>
-{/* nn */}
-      {/* </Stack.Navigator> */}
     </NavigationContainer>
   );
 }
