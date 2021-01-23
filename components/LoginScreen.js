@@ -52,8 +52,17 @@ const Login = () => {
   };
   return (
     <View style={styles.container}>
+      <View  style={styles.cont}  >
       <Text style={styles.titleText}>ERP</Text>
+      </View>
       <View style={styles.inputContainer}>
+      <Icon
+          name="email"
+          color="rgb(255,25,146)"
+          containerStyle={{
+            paddingTop: 30,
+          }}
+        />
         <TextInput
           value={email}
           keyboardType="email-address"
@@ -61,15 +70,16 @@ const Login = () => {
           placeholder="Email Address"
           style={styles.input}
         />
-        <Icon
-          name="email"
-          color="gold"
+       
+      </View>
+      <View style={styles.inputContainer}>
+      <Icon
+          name="lock"
+          color="rgb(255,25,146)"
           containerStyle={{
             paddingTop: 30,
           }}
         />
-      </View>
-      <View style={styles.inputContainer}>
         <TextInput
           value={password}
           secureTextEntry={true}
@@ -77,23 +87,15 @@ const Login = () => {
           placeholder="Password"
           style={styles.input}
         />
-        <Icon
-          name="lock"
-          color="gold"
-          containerStyle={{
-            paddingTop: 30,
-          }}
-        />
+        
       </View>
       <TouchableOpacity style={styles.button} onPress={onLogin}>
-        <Text style={styles.buttonText}> Login </Text>
-        <Icon
+      <Icon
           name="login"
-          color="gold"
-          // containerStyle={{
-          //   backgroundColor: "white",
-          // }}
+          color="white"
         />
+        <Text style={styles.buttonText}> Login </Text>
+       
       </TouchableOpacity>
     </View>
   );
@@ -103,31 +105,45 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "powderblue",
+  
+    // justifyContent: "center",
+  
+    backgroundColor: "black",
+  },
+  cont:{
+      marginTop:100,
+      fontWeight:"bold",
+      width:100,
+      height:100,
+      textAlign:"center",
+      borderRadius:100,
+      backgroundColor: "white",
+      marginBottom:30,
   },
   titleText: {
+   paddingTop:30,
+    color:"rgb(255,25,146)",
     paddingBottom: 50,
-    fontSize: 50,
-    alignItems: "center",
-    justifyContent: "center",
+    fontSize: 40,
   },
   button: {
     alignItems: "center",
-    backgroundColor: "black",
-    width: 300,
+    backgroundColor: "rgb(255,25,146)",
+    width: 200,
     padding: 10,
     borderWidth: 1,
-    borderColor: "white",
+    // borderColor: "white",
     marginTop: 50,
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+    borderRadius:30
   },
   buttonText: {
     color: "white",
     fontSize: 20,
     alignItems: "center",
+    fontWeight:"bold",
     justifyContent: "center",
   },
   input: {
@@ -136,6 +152,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 0,
     marginVertical: 25,
+    color:"white"
   },
   inputContainer: {
     width: 270,
@@ -144,6 +161,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: 0,
+    borderColor:"white"
   },
 });
 

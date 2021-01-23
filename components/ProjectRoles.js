@@ -184,7 +184,7 @@ export default class ProjectRoles extends React.Component {
 
         <View style={[styles.flex, { position: "relative" }]}>
           <Text style={styles.tableTitle}>Project</Text>
-          <Text style={styles.tableTitle}>Role</Text>
+          <Text style={[styles.tableTitle,styles.b]}>Role</Text>
         </View>
 
         <FlatList
@@ -197,7 +197,7 @@ export default class ProjectRoles extends React.Component {
                 { backgroundColor: "rgb(" + color[index % 2] + ")" },
               ]}
             >
-              <Text style={styles.users}>{item.projectName}</Text>
+              <Text style={[styles.users,styles.a]}>{item.projectName}</Text>
               <Text style={styles.users}>{item.roleName}</Text>
             </View>
           )}
@@ -212,10 +212,10 @@ export default class ProjectRoles extends React.Component {
 AppRegistry.registerComponent("Example of FlatList", () => FlatListComp);
 const styles = StyleSheet.create({
   users: {
-    fontSize: 20,
+    fontSize: 16,
     borderWidth: 0,
-    padding: 19,
-    width: "55%",
+    padding: 20,
+    width: "52%",
   },
   flex: {
     display: "flex",
@@ -230,10 +230,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "grey",
     fontSize: 22,
-    paddingLeft: 20,
+    paddingLeft: 40,
     paddingTop: 20,
     marginTop: 15,
-    width: "55%",
+    width: "50%",
   },
   width: {
     borderBottomWidth: 1,
@@ -245,5 +245,10 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 90,
   },
-
+  a:{
+    paddingLeft: 30,
+  },
+  b:{
+    paddingLeft: 70,
+  }
 });
