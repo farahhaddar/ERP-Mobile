@@ -65,7 +65,6 @@ export default function App() {
   return (
     <NavigationContainer>
       {token ? <StackScreen /> : <AuthStackScreen />}
-
       {/* <Stack.Navigator>
 
         
@@ -85,9 +84,7 @@ export default function App() {
           {(props) => <Graph {...props} />}
         </Stack.Screen>
 {/* nn */}
-
-        
-      </Stack.Navigator> */}
+      {/* </Stack.Navigator> */}
     </NavigationContainer>
   );
 }
