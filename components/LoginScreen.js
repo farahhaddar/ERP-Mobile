@@ -59,7 +59,7 @@ const Login = (props) => {
           name="email"
           color="rgb(255,25,146)"
           containerStyle={{
-            paddingTop: 30,
+            paddingTop: 35,
           }}
         />
         <TextInput
@@ -67,6 +67,7 @@ const Login = (props) => {
           keyboardType="email-address"
           onChangeText={(email) => setEmail(email)}
           placeholder="Email Address"
+          placeholderTextColor="rgb(255,25,146)"
           style={styles.input}
         />
       </View>
@@ -75,13 +76,14 @@ const Login = (props) => {
           name="lock"
           color="rgb(255,25,146)"
           containerStyle={{
-            paddingTop: 30,
+            paddingTop: 35,
           }}
         />
         <TextInput
           value={password}
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
+          placeholderTextColor="rgb(255,25,146)"
           placeholder="Password"
           style={styles.input}
         />
@@ -114,10 +116,11 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   titleText: {
-    paddingTop: 30,
+    paddingTop: 26,
     color: "rgb(255,25,146)",
-    paddingBottom: 50,
+    // paddingBottom: 40,
     fontSize: 40,
+    marginLeft: 16,
   },
   button: {
     alignItems: "center",
@@ -147,6 +150,7 @@ const styles = StyleSheet.create({
     marginVertical: 25,
     color: "white",
   },
+
   inputContainer: {
     width: 270,
     borderBottomWidth: 1,
